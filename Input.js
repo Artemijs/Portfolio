@@ -5,14 +5,14 @@ var ctrl =  false;
 var alt =  false;
 keys[8] = "backspace";
 keys[9] = "tab";
-keys[13] = "enter";
+keys[13] = "/n";
 keys[16] = "shift";
 keys[17] = "ctrl";
 keys[18] = "alt";
 keys[19] = "pause";
 keys[20] = "caps";
 keys[27] = "escape";
-keys[32] = '&nbsp';
+keys[32] = " ";//'&nbsp';
 keys[33] = "page up";
 keys[34] = "page down";
 keys[35] = "end";
@@ -23,6 +23,7 @@ keys[39] = "right";
 keys[40] = "down";
 keys[45] = "insert";
 keys[46] = "delete";
+
 keys[48] = "0";
 keys[49] = "1";
 keys[50] = "2";
@@ -33,6 +34,7 @@ keys[54] = "6";
 keys[55] = "7";
 keys[56] = "8";
 keys[57] = "9";
+keys[59] = ";";
 keys[61] = "=";
 keys[65] = "a";
 keys[66] = "b";
@@ -119,8 +121,7 @@ window.addEventListener('keydown',function(event){
 	else if(keyString == keys[17])//ctrl
 		ctrl = true;
 	else
-		print(keyString);
-	console.log("1"+keyString+"1")
+		print(keyString, event.which);
 
 },false);
 
@@ -134,14 +135,44 @@ window.addEventListener('keyup',function(event){
 
 },false);
 
-function print(keyString){
-	if(caps || shift){
+function print(keyString, keyCode){
+	if(caps){
 		console.log(shift + " , " + keyString.toUpperCase());
 		keyString= keyString.toUpperCase();
 	}
-	else if( !caps || !shift){
+	else if( !caps){
 		console.log(shift + " , " + keyString);
 	}
-
+	if(shift){
+		keyString = shiftSort(keyCode, keyString);
+	}
+	console.log(keyCode);
 	addChar(keyString);
+}
+function shiftSort(keyCode, keyString){
+
+	if(keyString == "1") keyString = "!";
+	if(keyString == "2") keyString = '"';
+	if(keyString == "3") keyString = "£";
+	if(keyString == "4") keyString = "$";
+	if(keyString == "5") keyString = "%";
+	if(keyString == "6") keyString = "^";
+	if(keyString == "7") keyString = "&";
+	if(keyString == "8") keyString = "*";
+	if(keyString == "9") keyString = "(";
+	if(keyString == "0") keyString = ")";
+	if(keyString == "=") keyString = "+";
+	if(keyString == ";") keyString = ":";
+	if(keyString == "-") keyString = "_";
+	if(keyString == "[") keyString = "{";
+	if(keyString == "]") keyString = "}";
+	if(keyString == "'") keyString = "@";
+	if(keyString == "#") keyString = "~";
+	if(keyString == "/") keyString = "?";
+	if(keyCode == 220) keyString = "|";
+	if(keyString == ",") keyString = "<";
+	if(keyString == ".") keyString = ">";
+	if(keyCode >= 65 && keyCode<=90)
+		keyString = keyString.toUpperCase();
+	return keyString;
 }
