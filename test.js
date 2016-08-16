@@ -29,7 +29,7 @@ function addChar(t){
 		charIndex++;
 		
 	}
-	
+	//testing
 }
 function tab(){
 	m_text[lineIndex]+="\t";
