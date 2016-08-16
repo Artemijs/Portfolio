@@ -4,7 +4,7 @@ var shift =  false;
 var ctrl =  false;
 var alt =  false;
 keys[8] = "backspace";
-keys[9] = "tab";
+keys[9] = "/t";
 keys[13] = "/n";
 keys[16] = "shift";
 keys[17] = "ctrl";
@@ -111,7 +111,11 @@ keys[222] = "'";
 //[] {} caps and numlock
 window.addEventListener('keydown',function(event){
 	var keyString = keys[event.which];
-	//print(event.which);//String.fromCharCode(event.keyCode));
+	
+	if (event.keyCode === 9) {
+        event.preventDefault();
+    }
+
 	if(keyString == keys[20] && caps == false)//caps
 		caps = true;
 	else if(keyString == keys[20] && caps == true)

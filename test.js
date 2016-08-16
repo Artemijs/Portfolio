@@ -13,12 +13,16 @@ function onLoad(){
 		//addChar(":");
 }
 function addChar(t){
+	
+	if (t == "/t"){
+		tab();
+	}
+	else if(t == " ")t = ' ';
 	if(t == "/n"){
 		newLine();
 
 	}
-	else if(t == " ")t = ' ';
-	if(t != "/n"){
+	else if(t != "/n" && t !="/t"){
 		m_text[lineIndex]+=t;
 		printCharacter(t);
 		drawIdex();
@@ -26,6 +30,30 @@ function addChar(t){
 		
 	}
 	
+}
+function tab(){
+	m_text[lineIndex]+="\t";
+
+	$("#l"+lineIndex).append("<p id='c"+(charIndex+1)+"' class='c'></p>");
+	var c = $("#l"+lineIndex).find("#c"+charIndex);
+	c.append("<p class = 'c'>&nbsp;</p>");
+	charIndex++;
+	
+	$("#l"+lineIndex).append("<p id='c"+(charIndex+1)+"' class='c'></p>");
+	var c = $("#l"+lineIndex).find("#c"+charIndex);
+	c.append("<p class = 'c'>&nbsp;</p>");
+	charIndex++;
+
+	$("#l"+lineIndex).append("<p id='c"+(charIndex+1)+"' class='c'></p>");
+	var c = $("#l"+lineIndex).find("#c"+charIndex);
+	c.append("<p class = 'c'>&nbsp;</p>");
+	charIndex++;
+
+	$("#l"+lineIndex).append("<p id='c"+(charIndex+1)+"' class='c'></p>");
+	var c = $("#l"+lineIndex).find("#c"+charIndex);
+	c.append("<p class = 'c'>&nbsp;</p>");
+	charIndex++;
+	drawIdex();
 }
 function move_stickV(dir){
 	lineIndex+=dir;
@@ -37,13 +65,9 @@ function move_stickH(dir){
 
 }
 function drawIdex(){
-	//console.log(charIndex+" "+lineIndex);
 	
 	var child = $("#Stick").remove();
-	//console.log(child);
-	//parent.append("<p>|</p>");
 	var parent = $("#l"+lineIndex);
-	//console.log(parent);
 	parent = parent.find("#c"+(charIndex));
 	console.log(charIndex+1);
 	parent.append("<p id='Stick'>|</p>");
@@ -51,19 +75,15 @@ function drawIdex(){
 		top: ( parent.offset().top -  parent.height()),
 		left:(parent.offset().left+  parent.width())
 	});
-	//parent.append("<p id='Stick'>|</p>");
-	console.log($("#Stick").offset().top+" , "+parent.height());	
-
 }
 function printCharacter(t){
 
 	$("#l"+lineIndex).append("<p id='c"+(charIndex+1)+"' class='c'></p>");
 	var c = $("#l"+lineIndex).find("#c"+charIndex);
 	if(t == ' '){
-		//$("#l"+lineIndex).append("<p id='c"+charIndex+"' class = 'space'></p>");
 		c.append("<p class = 'c'>&nbsp;</p>");
 	}
-	else c.text(t);//append("<p id='c"+charIndex+"' class='c'>"+t+"</p>");
+	else c.text(t);
 }
 function newLine(){
 	lineIndex++;
