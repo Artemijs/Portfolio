@@ -137,16 +137,16 @@ window.addEventListener('keyup',function(event){
 
 function print(keyString, keyCode){
 	if(caps){
-		console.log(shift + " , " + keyString.toUpperCase());
+		//console.log(shift + " , " + keyString.toUpperCase());
 		keyString= keyString.toUpperCase();
 	}
 	else if( !caps){
-		console.log(shift + " , " + keyString);
+		//console.log(shift + " , " + keyString);
 	}
 	if(shift){
 		keyString = shiftSort(keyCode, keyString);
 	}
-	console.log(keyCode);
+	//console.log(keyCode);
 	addChar(keyString);
 }
 function shiftSort(keyCode, keyString){
