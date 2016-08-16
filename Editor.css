@@ -1,12 +1,15 @@
 p.c{
 	float:left;
+	margin-top: 0%;
+	margin-bottom: 0%;
 }
 p.space{
 	
 }
+p.l{
+	margin-top: 0%;
+	margin-bottom: 0%;
+}
 p#Stick{
-	position: relative;
-	top: -18px;
-    left: -2px;
-	
+	position: absolute;
 }

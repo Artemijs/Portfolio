@@ -120,6 +120,10 @@ window.addEventListener('keydown',function(event){
 		shift = true;
 	else if(keyString == keys[17])//ctrl
 		ctrl = true;
+	else if(keyString == keys[37]){ move_stickH(-1);}//left
+	else if(keyString == keys[39]){ move_stickH(1);}//right
+	else if(keyString == keys[38]){ move_stickV(-1);}//up
+	else if(keyString == keys[40]){ move_stickV(1);}//down
 	else
 		print(keyString, event.which);
 
