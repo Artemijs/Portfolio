@@ -2,9 +2,7 @@ p.c{
 	float:left;
 	margin-top: 0%;
 	margin-bottom: 0%;
-}
-p.space{
-	
+	margin-right: 1px;
 }
 p.l{
 	margin-top: 0%;
@@ -12,4 +10,5 @@ p.l{
 }
 p#Stick{
 	position: absolute;
+	margin-bottom: -5px;
 }

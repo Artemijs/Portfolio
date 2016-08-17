@@ -1,5 +1,5 @@
 var m_text = new Array();
-var charIndex = 0;
+var charIndex = 1;
 var lineIndex = 0;
 var time =0;
 var m_blink_time =35;
@@ -23,6 +23,7 @@ function addChar(t){
 
 	}
 	else if(t != "/n" && t !="/t"){
+		//char index here 
 		m_text[lineIndex]+=t;
 		printCharacter(t);
 		drawIdex();
@@ -73,23 +74,30 @@ function drawIdex(){
 	parent.append("<p id='Stick'>|</p>");
 	$("#Stick").css({
 		top: ( parent.offset().top -  parent.height()),
-		left:(parent.offset().left+  parent.width())
+		left:(parent.offset().left+  parent.width())*0.97
 	});
 }
 function printCharacter(t){
 
-	$("#l"+lineIndex).append("<p id='c"+(charIndex+1)+"' class='c'></p>");
-	var c = $("#l"+lineIndex).find("#c"+charIndex);
-	if(t == ' '){
-		c.append("<p class = 'c'>&nbsp;</p>");
-	}
-	else c.text(t);
+	
+	var l = $("#l"+lineIndex);//.find("#c"+charIndex);
+	var allChars = l.find(".c");
+	if(charIndex < allChars.length)
+		allChars.eq(charIndex).text(t);
+	else
+		if(t == ' '){
+			l.append("<p id='c"+charIndex+"' class = 'c'>&nbsp;</p>")
+		}
+		else {
+			l.append("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>")
+		}
 }
 function newLine(){
-	lineIndex++;
-	charIndex = 0;
+	
 	t = "\n"
 	m_text[lineIndex]+=t;
+	lineIndex++;
+	charIndex = 1;
 	$("#main").append("<br style='clear:both'>");
 	$("#main").append("<p id='l"+lineIndex+"' class = 'l'></p>");
 	$("#l"+lineIndex).append("<p id='c0' class='c'></p>");
