@@ -1,5 +1,5 @@
 var m_text = new Array();
-var charIndex = 1;
+var charIndex = 0;
 var lineIndex = 0;
 var time =0;
 var m_blink_time =35;
@@ -26,8 +26,8 @@ function addChar(t){
 		//char index here 
 		m_text[lineIndex]+=t;
 		printCharacter(t);
-		drawIdex();
 		charIndex++;
+		drawIdex();
 		
 	}
 	//testing
@@ -61,8 +61,10 @@ function move_stickV(dir){
 	drawIdex();
 }
 function move_stickH(dir){
+	console.log("from "+"#c"+(charIndex));
 	charIndex+=dir;
 	drawIdex();
+	console.log("to "+"#c"+(charIndex));
 
 }
 function drawIdex(){
@@ -70,6 +72,7 @@ function drawIdex(){
 	var child = $("#Stick").remove();
 	var parent = $("#l"+lineIndex);
 	parent = parent.find("#c"+(charIndex));
+	console.log("parenting to c"+charIndex);
 	//console.log(charIndex+1);
 	parent.append("<p id='Stick'>|</p>");
 	$("#Stick").css({
@@ -86,15 +89,15 @@ function printCharacter(t){
 		//this is replacing
 		//allChars.eq(charIndex).text(t);
 		//var len = (allChars.length-1) - charIndex;
-		for( var i =charIndex; i<allChars.length; i++){
+		for( var i =charIndex+1; i<allChars.length; i++){
 			console.log(allChars.eq(i).attr("id"));
 			allChars.eq(i).attr('id','c'+(i+1));
 		}
 		if(t == ' '){
-			$("<p id='c"+charIndex+"' class = 'c'>&nbsp;</p>").insertAfter(allChars.eq(charIndex-1));
+			$("<p id='c"+charIndex+1+"' class = 'c'>&nbsp;</p>").insertAfter(allChars.eq(charIndex));
 		}
 		else {
-			$("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>").insertAfter(allChars.eq(charIndex-1));
+			$("<p id='c"+(charIndex+1)+"' class = 'c'>"+t+"</p>").insertAfter(allChars.eq(charIndex));
 		}
 		
 		
@@ -105,6 +108,7 @@ function printCharacter(t){
 		}
 		else {
 			l.append("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>");
+			console.log("created c"+charIndex);
 		}
 }
 function newLine(){
@@ -112,7 +116,7 @@ function newLine(){
 	t = "\n"
 	m_text[lineIndex]+=t;
 	lineIndex++;
-	charIndex = 1;
+	charIndex = 0;
 	$("#main").append("<br style='clear:both'>");
 	$("#main").append("<p id='l"+lineIndex+"' class = 'l'></p>");
 	$("#l"+lineIndex).append("<p id='c0' class='c'></p>");
