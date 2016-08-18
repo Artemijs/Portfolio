@@ -70,7 +70,7 @@ function drawIdex(){
 	var child = $("#Stick").remove();
 	var parent = $("#l"+lineIndex);
 	parent = parent.find("#c"+(charIndex));
-	console.log(charIndex+1);
+	//console.log(charIndex+1);
 	parent.append("<p id='Stick'>|</p>");
 	$("#Stick").css({
 		top: ( parent.offset().top -  parent.height()),
@@ -78,23 +78,25 @@ function drawIdex(){
 	});
 }
 function printCharacter(t){
-
+	console.log(charIndex);
 	
 	var l = $("#l"+lineIndex);//.find("#c"+charIndex);
 	var allChars = l.find(".c");
 	if(charIndex < allChars.length){
 		//this is replacing
 		//allChars.eq(charIndex).text(t);
-		var len = allChars.length - charIndex;
-		for( var i =charIndex; i<len; i++){
-			allChars.eq(charIndex).attr('id','c'+(charIndex+i+1));
+		//var len = (allChars.length-1) - charIndex;
+		for( var i =charIndex; i<allChars.length; i++){
+			console.log(allChars.eq(i).attr("id"));
+			allChars.eq(i).attr('id','c'+(i+1));
 		}
 		if(t == ' '){
-			$("<p id='c"+charIndex+"' class = 'c'>&nbsp;</p>").insertAfter(allChars.eq(charIndex));
+			$("<p id='c"+charIndex+"' class = 'c'>&nbsp;</p>").insertAfter(allChars.eq(charIndex-1));
 		}
 		else {
-			$("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>").insertAfter(allChars.eq(charIndex));
+			$("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>").insertAfter(allChars.eq(charIndex-1));
 		}
+		
 		
 	}
 	else
