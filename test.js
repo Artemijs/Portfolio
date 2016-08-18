@@ -82,14 +82,27 @@ function printCharacter(t){
 	
 	var l = $("#l"+lineIndex);//.find("#c"+charIndex);
 	var allChars = l.find(".c");
-	if(charIndex < allChars.length)
-		allChars.eq(charIndex).text(t);
-	else
+	if(charIndex < allChars.length){
+		//this is replacing
+		//allChars.eq(charIndex).text(t);
+		var len = allChars.length - charIndex;
+		for( var i =charIndex; i<len; i++){
+			allChars.eq(charIndex).attr('id','c'+(charIndex+i+1));
+		}
 		if(t == ' '){
-			l.append("<p id='c"+charIndex+"' class = 'c'>&nbsp;</p>")
+			$("<p id='c"+charIndex+"' class = 'c'>&nbsp;</p>").insertAfter(allChars.eq(charIndex));
 		}
 		else {
-			l.append("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>")
+			$("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>").insertAfter(allChars.eq(charIndex));
+		}
+		
+	}
+	else
+		if(t == ' '){
+			l.append("<p id='c"+charIndex+"' class = 'c'>&nbsp;</p>");
+		}
+		else {
+			l.append("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>");
 		}
 }
 function newLine(){
