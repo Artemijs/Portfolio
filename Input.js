@@ -112,7 +112,10 @@ keys[222] = "'";
 window.addEventListener('keydown',function(event){
 	var keyString = keys[event.which];
 	
-	if (event.keyCode === 9) {
+	if (event.keyCode === 8) {
+        event.preventDefault();
+    }
+    if (event.keyCode === 9) {
         event.preventDefault();
     }
 

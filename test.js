@@ -13,16 +13,20 @@ function onLoad(){
 		//addChar(":");
 }
 function addChar(t){
-	
-	if (t == "/t"){
+	if(t == "backspace"){
+		backspace();
+		drawIdex();
+	}
+	else if (t == "/t"){
 		tab();
 	}
 	else if(t == " ")t = ' ';
+	
 	if(t == "/n"){
 		newLine();
 
 	}
-	else if(t != "/n" && t !="/t"){
+	else if(t != "/n" && t !="/t" && t != "backspace"){
 		//char index here 
 		m_text[lineIndex]+=t;
 		printCharacter(t);
@@ -111,6 +115,10 @@ function printCharacter(t){
 			console.log("created c"+charIndex);
 		}
 }
+function backspace(){
+	var l = $("#l"+lineIndex).find("#c"+(charIndex)).remove();
+	charIndex--;
+}
 function newLine(){
 	
 	t = "\n"
@@ -149,3 +157,7 @@ function update()
 	//console .log("time : "+time);
     window.requestAnimationFrame(update);
 }
+
+
+
+//enter and back space 
