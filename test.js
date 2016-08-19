@@ -81,7 +81,7 @@ function drawIdex(){
 	parent.append("<p id='Stick'>|</p>");
 	$("#Stick").css({
 		top: ( parent.offset().top -  parent.height()),
-		left:(parent.offset().left+  parent.width())*0.97
+		left:(parent.offset().left+  parent.width())
 	});
 }
 function printCharacter(t){
@@ -116,18 +116,29 @@ function printCharacter(t){
 		}
 }
 function backspace(){
-	var l = $("#l"+lineIndex).find("#c"+(charIndex)).remove();
+	$("#l"+lineIndex).find("#c"+(charIndex)).remove();
 	charIndex--;
 }
 function newLine(){
+
+
+	var l = $("#l"+lineIndex);//.find("#c"+charIndex);
+	var allChars = l.find(".c");
+	
 	
 	t = "\n"
 	m_text[lineIndex]+=t;
 	lineIndex++;
-	charIndex = 0;
+	
 	$("#main").append("<br style='clear:both'>");
 	$("#main").append("<p id='l"+lineIndex+"' class = 'l'></p>");
 	$("#l"+lineIndex).append("<p id='c0' class='c'></p>");
+	var id =1;
+	for( var i =charIndex+1; i<allChars.length; i++){
+		$("#l"+lineIndex).append(allChars.eq(i).attr("id","c"+id));
+		id++;
+	}
+	charIndex = 0;
 	var child = $("#Stick").remove();
 	var parent = $("#l"+lineIndex);
 	parent = parent.find("#c"+(charIndex));
@@ -160,4 +171,4 @@ function update()
 
 
 
-//enter and back space 
+//home+end keys
