@@ -39,26 +39,19 @@ function addChar(t){
 function tab(){
 	m_text[lineIndex]+="\t";
 
-	$("#l"+lineIndex).append("<p id='c"+(charIndex+1)+"' class='c'></p>");
-	var c = $("#l"+lineIndex).find("#c"+charIndex);
-	c.append("<p class = 'c'>&nbsp;</p>");
-	charIndex++;
-	
-	$("#l"+lineIndex).append("<p id='c"+(charIndex+1)+"' class='c'></p>");
-	var c = $("#l"+lineIndex).find("#c"+charIndex);
-	c.append("<p class = 'c'>&nbsp;</p>");
-	charIndex++;
-
-	$("#l"+lineIndex).append("<p id='c"+(charIndex+1)+"' class='c'></p>");
-	var c = $("#l"+lineIndex).find("#c"+charIndex);
-	c.append("<p class = 'c'>&nbsp;</p>");
-	charIndex++;
-
-	$("#l"+lineIndex).append("<p id='c"+(charIndex+1)+"' class='c'></p>");
-	var c = $("#l"+lineIndex).find("#c"+charIndex);
-	c.append("<p class = 'c'>&nbsp;</p>");
-	charIndex++;
-	drawIdex();
+	addChar(" ");
+	console.log("tab");
+	//charIndex++;
+	addChar(" ");
+	console.log("tab");
+	//charIndex++;
+	addChar(" ");
+	console.log("tab");
+	//charIndex++;
+	addChar(" ");
+	console.log("tab");
+	//charIndex++;
+	//drawIdex();
 }
 function move_stickV(dir){
 	lineIndex+=dir;
@@ -73,12 +66,12 @@ function move_stickH(dir){
 }
 function drawIdex(){
 	
-	var child = $("#Stick").remove();
-	var parent = $("#l"+lineIndex);
-	parent = parent.find("#c"+(charIndex));
-	console.log("parenting to c"+charIndex);
+	//var child = $("#Stick").remove();
+	var l = $("#l"+lineIndex);
+	var parent = l.find("#c"+(charIndex));
+	console.log("parenting to c"+charIndex+" "+l.outerWidth());
 	//console.log(charIndex+1);
-	parent.append("<p id='Stick'>|</p>");
+	//parent.append("<p id='Stick'>|</p>");
 	$("#Stick").css({
 		top: ( parent.offset().top -  parent.height()),
 		left:(parent.offset().left+  parent.width())
@@ -98,7 +91,9 @@ function printCharacter(t){
 			allChars.eq(i).attr('id','c'+(i+1));
 		}
 		if(t == ' '){
-			$("<p id='c"+charIndex+1+"' class = 'c'>&nbsp;</p>").insertAfter(allChars.eq(charIndex));
+			$("<p id='c"+(charIndex+1)+"' class = 'c'>_</p>").insertAfter(allChars.eq(charIndex));
+			//$('[class*="OtherFeatur"]').css("opacity", 0.5);
+			$("#c"+(charIndex+1)).css("opacity", 0);
 		}
 		else {
 			$("<p id='c"+(charIndex+1)+"' class = 'c'>"+t+"</p>").insertAfter(allChars.eq(charIndex));

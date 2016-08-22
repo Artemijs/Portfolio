@@ -11,4 +11,5 @@ p.l{
 p#Stick{
 	position: absolute;
 	margin-bottom: -5px;
+	opacity: 1;
 }
