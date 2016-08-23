@@ -69,7 +69,7 @@ function drawIdex(){
 	//var child = $("#Stick").remove();
 	var l = $("#l"+lineIndex);
 	var parent = l.find("#c"+(charIndex));
-	console.log("parenting to c"+charIndex+" "+l.outerWidth());
+	
 	//console.log(charIndex+1);
 	//parent.append("<p id='Stick'>|</p>");
 	$("#Stick").css({
@@ -91,9 +91,10 @@ function printCharacter(t){
 			allChars.eq(i).attr('id','c'+(i+1));
 		}
 		if(t == ' '){
-			$("<p id='c"+(charIndex+1)+"' class = 'c'>_</p>").insertAfter(allChars.eq(charIndex));
+			var space = $("<p id='c"+(charIndex+1)+"' class = 'c'>_</p>");
 			//$('[class*="OtherFeatur"]').css("opacity", 0.5);
-			$("#c"+(charIndex+1)).css("opacity", 0);
+			space.css("opacity", 0);
+			space.insertAfter(allChars.eq(charIndex));
 		}
 		else {
 			$("<p id='c"+(charIndex+1)+"' class = 'c'>"+t+"</p>").insertAfter(allChars.eq(charIndex));
@@ -103,7 +104,9 @@ function printCharacter(t){
 	}
 	else
 		if(t == ' '){
-			l.append("<p id='c"+charIndex+"' class = 'c'>&nbsp;</p>");
+			l.append("<p id='c"+charIndex+"' class = 'c'>_</p>");
+			//$('[class*="OtherFeatur"]').css("opacity", 0.5);
+			$("#c"+(charIndex)).css("opacity", 0);
 		}
 		else {
 			l.append("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>");
@@ -123,21 +126,32 @@ function newLine(){
 	
 	t = "\n"
 	m_text[lineIndex]+=t;
-	lineIndex++;
 	
-	$("#main").append("<br style='clear:both'>");
-	$("#main").append("<p id='l"+lineIndex+"' class = 'l'></p>");
-	$("#l"+lineIndex).append("<p id='c0' class='c'></p>");
+	/*
+	i need to somehow push all existing L's down after this new L
+	like what i did with inserting a character in the middle of the line 
+
+	*/
+	var all_lines = $(".l");
+	lineIndex++;
+	for(var i = lineIndex; i < all_lines.length+1; i++){
+		all_lines.eq(i).attr('id','l'+ (i+1));
+	}
+	//$("<p id='c"+(lineIndex)+"' class = 'c'>"+t+"</p>").insertAfter(allChars.eq(charIndex));
+	var br = $("<br style='clear:both'>");
+	var line = $("<p id='l"+lineIndex+"' class = 'l'></p>");
+	line = line.append(br);
+	//br.insertAfter(all_lines.eq(lineIndex));
+	line.insertAfter(all_lines.eq(lineIndex-1));
+	line.append("<p id='c0' class='c'></p>");
 	var id =1;
 	for( var i =charIndex+1; i<allChars.length; i++){
 		$("#l"+lineIndex).append(allChars.eq(i).attr("id","c"+id));
 		id++;
 	}
 	charIndex = 0;
-	var child = $("#Stick").remove();
-	var parent = $("#l"+lineIndex);
-	parent = parent.find("#c"+(charIndex));
-	parent.append("<p id='Stick'>|</p>");
+	drawIdex();
+
 }
 window.requestAnimationFrame = (function(callback){
     return  window.requestAnimationFrame       ||  //Chromium
