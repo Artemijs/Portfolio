@@ -142,7 +142,12 @@ function printCharacter(t){
 		}
 }
 function backspace(){
-	if(charIndex <= 0) return;
+	if(charIndex<=0 && lineIndex <=0)return;
+	if(charIndex <= 0){
+		$("#l"+lineIndex).remove();
+		move_stickH(-1);
+		return;
+	} 
 	$("#l"+lineIndex).find("#c"+(charIndex)).remove();
 	charIndex--;
 }
