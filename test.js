@@ -4,12 +4,13 @@ var lineIndex = 0;
 var time =0;
 var m_blink_time =35;
 function onLoad(){
-	$("#l"+lineIndex).append("<p id='c0' class='c'></p>");
-	var child = $("#Stick").remove();
-	var parent = $("#l"+lineIndex);
-	parent = parent.find("#c"+(charIndex));
-	parent.append("<p id='Stick'>|</p>");
+	$("#l"+lineIndex).append("<p id='c0' class='c space'>_</p>");
+	//var child = $("#Stick").remove();
+	//var parent = $("#l"+lineIndex);
+	//parent = parent.find("#c"+(charIndex));
+	//parent.append("<p id='Stick'>|</p>");
 	update();
+	drawIdex();
 		//addChar(":");
 }
 function addChar(t){
@@ -54,14 +55,41 @@ function tab(){
 	//drawIdex();
 }
 function move_stickV(dir){
+	time = m_blink_time;
+	if(dir < 0 && lineIndex ==0) return;
+	var all_lines = $(".l");
+	if(dir > 0 && lineIndex >= all_lines.length-1) return;
+
+	var nextLineLen = all_lines.eq(lineIndex+dir).find(".c").length;
+	console.log(nextLineLen);
+	if (nextLineLen < charIndex) charIndex = nextLineLen-1;
 	lineIndex+=dir;
 	drawIdex();
 }
 function move_stickH(dir){
-	console.log("from "+"#c"+(charIndex));
+	//console.log("dir " + dir+" len "+);
+	time = m_blink_time;
+	var lineCount = $(".l").length;
+	if(dir < 0 && charIndex ==0){
+		if(lineIndex <=0)return;
+		else{
+			charIndex= $("#l"+(lineIndex-1)).find(".c").length;
+			lineIndex--;
+		}
+	}
+	var l = $("#l"+lineIndex);
+	var all_chars = l.find(".c");
+	if(dir > 0 && charIndex >= all_chars.length-1){
+		
+		if(lineIndex >= lineCount-1)return;
+		else{
+			charIndex=-1;
+			lineIndex++;
+		}
+	}
 	charIndex+=dir;
 	drawIdex();
-	console.log("to "+"#c"+(charIndex));
+	//console.log("to "+"#c"+(charIndex));
 
 }
 function drawIdex(){
@@ -78,7 +106,7 @@ function drawIdex(){
 	});
 }
 function printCharacter(t){
-	console.log(charIndex);
+	//console.log(charIndex);
 	
 	var l = $("#l"+lineIndex);//.find("#c"+charIndex);
 	var allChars = l.find(".c");
@@ -91,9 +119,9 @@ function printCharacter(t){
 			allChars.eq(i).attr('id','c'+(i+1));
 		}
 		if(t == ' '){
-			var space = $("<p id='c"+(charIndex+1)+"' class = 'c'>_</p>");
+			var space = $("<p id='c"+(charIndex+1)+"' class = 'c space'>_</p>");
 			//$('[class*="OtherFeatur"]').css("opacity", 0.5);
-			space.css("opacity", 0);
+			//space.css("opacity", 0);
 			space.insertAfter(allChars.eq(charIndex));
 		}
 		else {
@@ -104,9 +132,9 @@ function printCharacter(t){
 	}
 	else
 		if(t == ' '){
-			l.append("<p id='c"+charIndex+"' class = 'c'>_</p>");
+			l.append("<p id='c"+charIndex+"' class = 'c space'>_</p>");
 			//$('[class*="OtherFeatur"]').css("opacity", 0.5);
-			$("#c"+(charIndex)).css("opacity", 0);
+			//$("#c"+(charIndex)).css("opacity", 0);
 		}
 		else {
 			l.append("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>");
@@ -114,6 +142,7 @@ function printCharacter(t){
 		}
 }
 function backspace(){
+	if(charIndex <= 0) return;
 	$("#l"+lineIndex).find("#c"+(charIndex)).remove();
 	charIndex--;
 }
@@ -143,7 +172,7 @@ function newLine(){
 	line = line.append(br);
 	//br.insertAfter(all_lines.eq(lineIndex));
 	line.insertAfter(all_lines.eq(lineIndex-1));
-	line.append("<p id='c0' class='c'></p>");
+	line.append("<p id='c0' class='c space'>_</p>");
 	var id =1;
 	for( var i =charIndex+1; i<allChars.length; i++){
 		$("#l"+lineIndex).append(allChars.eq(i).attr("id","c"+id));

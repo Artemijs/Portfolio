@@ -8,6 +8,9 @@ p.l{
 	margin-top: 0%;
 	margin-bottom: 0%;
 }
+.space{
+	opacity: 0;
+}
 p#Stick{
 	position: absolute;
 	margin-bottom: -5px;
