@@ -35,6 +35,13 @@ function addChar(t){
 		drawIdex();
 		
 	}
+	$(".c").click(function(){
+		var id = $(this).attr("id");
+		charIndex = parseInt(id.substr(1,id.length));
+		id = $(this).parent().attr("id");
+		lineIndex = parseInt(id.substr(1,id.length));
+		drawIdex();
+	});
 	//testing
 }
 function tab(){
@@ -115,7 +122,7 @@ function printCharacter(t){
 		//allChars.eq(charIndex).text(t);
 		//var len = (allChars.length-1) - charIndex;
 		for( var i =charIndex+1; i<allChars.length; i++){
-			console.log(allChars.eq(i).attr("id"));
+			//console.log(allChars.eq(i).attr("id"));
 			allChars.eq(i).attr('id','c'+(i+1));
 		}
 		if(t == ' '){
