@@ -144,8 +144,23 @@ function printCharacter(t){
 function backspace(){
 	if(charIndex<=0 && lineIndex <=0)return;
 	if(charIndex <= 0){
-		$("#l"+lineIndex).remove();
-		move_stickH(-1);
+		var charlen = $("#l"+lineIndex).find(".c").length;
+		if(charlen <= 1){
+			$("#l"+lineIndex).remove();
+		}
+		else{
+			var chars = $("#l"+lineIndex).find(".c");
+			move_stickH(-1);
+			for( var i=1; i < chars.length; i++){
+				var element = chars.eq(i);
+				if(element.hasClass("space"))
+					addChar(" ");
+				else
+					addChar(element.text());
+			}
+			$("#l"+(lineIndex+1)).remove();
+		}
+		
 		return;
 	} 
 	$("#l"+lineIndex).find("#c"+(charIndex)).remove();
