@@ -3,6 +3,12 @@ var charIndex = 0;
 var lineIndex = 0;
 var time =0;
 var m_blink_time =35;
+var m_s_sline =0; //start selection line index
+var m_s_schar =0;//start selection character index
+//use current character index and current line index for end selection
+//and color all the characters as selected in between
+var selecting = false;
+
 function onLoad(){
 	$("#l"+lineIndex).append("<p id='c0' class='c space'>_</p>");
 	//var child = $("#Stick").remove();
@@ -62,6 +68,9 @@ function tab(){
 	//drawIdex();
 }
 function move_stickV(dir){
+	if( m_s_schar == 0){
+		highlightSelection(false);
+	}
 	time = m_blink_time;
 	if(dir < 0 && lineIndex ==0) return;
 	var all_lines = $(".l");
@@ -75,6 +84,9 @@ function move_stickV(dir){
 }
 function move_stickH(dir){
 	//console.log("dir " + dir+" len "+);
+	if( m_s_schar == 0){
+		highlightSelection(false);
+	}
 	time = m_blink_time;
 	var lineCount = $(".l").length;
 	if(dir < 0 && charIndex ==0){
@@ -111,6 +123,12 @@ function drawIdex(){
 		top: ( parent.offset().top -  parent.height()),
 		left:(parent.offset().left+  parent.width())
 	});
+	if(selecting){
+		highlightSelection(true);
+	}
+	else if( m_s_schar != 0){
+		highlightSelection(false);
+	}
 }
 function printCharacter(t){
 	//console.log(charIndex);
@@ -209,6 +227,45 @@ function newLine(){
 	drawIdex();
 
 }
+function highlightSelection(show){
+	//find the line of start selection
+	var sline = $("#l"+m_s_sline);
+	//check if end selection is on the same line
+	if(m_s_sline == lineIndex){
+		//select chars on that line between start and end
+		var selected_chars = $("#l"+m_s_sline).find(".c");
+		//highlight chars
+		for(var i = m_s_schar; i <=charIndex; i++){
+			if(show)
+				selected_chars.eq(i).addClass("selected");
+			else{
+				selected_chars.eq(i).removeClass("selected");
+				m_s_sline = 0;
+				m_s_schar = 0;
+			}
+		}
+	}
+	else{
+
+	}
+	//else
+		//idk yet
+}
+function shiftSelect(){
+	/*var l = $("#l"+lineIndex);//.find("#c"+charIndex);
+	l.find("#c"+charIndex).addClass("selected");
+	charIndex+=dir;*/
+	m_s_sline = lineIndex;
+	m_s_schar = charIndex;
+	selecting = true;
+}
+function cancelSelection(){
+	selecting = false;
+	
+}
+
+
+
 window.requestAnimationFrame = (function(callback){
     return  window.requestAnimationFrame       ||  //Chromium
             window.webkitRequestAnimationFrame ||  //Webkit

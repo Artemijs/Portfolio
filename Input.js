@@ -123,14 +123,24 @@ window.addEventListener('keydown',function(event){
 		caps = true;
 	else if(keyString == keys[20] && caps == true)
 		caps = false;
-	else if(keyString == keys[16])//shift
+	else if(keyString == keys[16]){//shift
 		shift = true;
+		shiftSelect();
+	}
 	else if(keyString == keys[17])//ctrl
 		ctrl = true;
-	else if(keyString == keys[37]){ move_stickH(-1);}//left
-	else if(keyString == keys[39]){ move_stickH(1);}//right
-	else if(keyString == keys[38]){ move_stickV(-1);}//up
-	else if(keyString == keys[40]){ move_stickV(1);}//down
+	else if(keyString == keys[37]){//left
+		move_stickH(-1);
+	}
+	else if(keyString == keys[39]){ //right
+		move_stickH(1);
+	}
+	else if(keyString == keys[38]){ //up
+		move_stickV(-1);
+	}
+	else if(keyString == keys[40]){ //down
+		move_stickV(1);
+	}
 	else
 		print(keyString, event.which);
 
@@ -138,8 +148,10 @@ window.addEventListener('keydown',function(event){
 
 window.addEventListener('keyup',function(event){
 	var keyString = keys[event.which];
-	if(keyString == keys[16])//shift
+	if(keyString == keys[16]){//shift
 		shift = false;
+		cancelSelection();
+	}
 	else if(keyString == keys[17])//ctrl
 		ctrl = false;
 	//print(keyString);
