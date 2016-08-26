@@ -81,7 +81,7 @@ function move_stickV(dir){
 
 	var nextLineLen = all_lines.eq(lineIndex+dir).find(".c").length;
 	console.log(nextLineLen);
-	if (nextLineLen < charIndex) charIndex = nextLineLen-1;
+	if (nextLineLen <= charIndex) charIndex = nextLineLen-1;
 	lineIndex+=dir;
 	drawIdex();
 }
@@ -230,9 +230,19 @@ function newLine(){
 	drawIdex();
 
 }
+function go_throuhg_line(show, first, last, allChars){
+	first+=1;
+	for(var j = first; j <= last; j++){
+		if(show)
+			allChars.eq(j ).addClass("selected");
+		else{
+			allChars.eq(j).removeClass("selected");
+			m_s_sline = 0;
+			m_s_schar = 0;
+		}
+	}
+}
 function highlightSelection(show){
-	//find the line of start selection
-	var sline = $("#l"+m_s_sline);
 	//check if end selection is on the same line
 	if(m_s_sline == lineIndex){
 		//select chars on that line between start and end
@@ -253,10 +263,38 @@ function highlightSelection(show){
 		}
 	}
 	else{
-
+		//bugs
+			//when adding more than one line to selection onyl half of the line is selected ---- solved
+			//when adding line from down to up it adds in the reverse order
+			var begin = m_s_sline; 
+			var last = lineIndex;
+			if(begin>last) {begin=last; last = m_s_sline;}
+			for(var i = begin; i <= last; i++){
+				//for each line 
+				var allChars = $("#l"+i).find(".c");
+				if(i == m_s_sline){
+					//the first line
+					console.log("first");
+					var s1 = m_s_schar; 
+					var e1 = allChars.length;
+					if(m_s_sline > lineIndex){s1 =0; e1 = m_s_schar;}
+					go_throuhg_line(show, s1, e1, allChars);
+				}
+				else if( i == lineIndex ){
+					//the last line
+					console.log("last");
+					var s1 = 0; 
+					var e1 = charIndex;
+					if(m_s_sline > lineIndex){s1 =charIndex; e1 = allChars.length;}
+					go_throuhg_line(show, s1, e1, allChars);
+				}
+				else{
+					//all lines inbetween
+					console.log("full");
+					go_throuhg_line(show, 0, allChars.length, allChars);
+				}
+			}
 	}
-	//else
-		//idk yet
 }
 function shiftSelect(){
 	/*var l = $("#l"+lineIndex);//.find("#c"+charIndex);
