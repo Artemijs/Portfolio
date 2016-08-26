@@ -20,6 +20,9 @@ function onLoad(){
 		//addChar(":");
 }
 function addChar(t){
+	if( m_s_schar != 0 && !selecting){
+		highlightSelection(false);
+	}
 	if(t == "backspace"){
 		backspace();
 		drawIdex();
@@ -68,7 +71,7 @@ function tab(){
 	//drawIdex();
 }
 function move_stickV(dir){
-	if( m_s_schar == 0){
+	if( m_s_schar != 0 && !selecting){
 		highlightSelection(false);
 	}
 	time = m_blink_time;
@@ -84,7 +87,7 @@ function move_stickV(dir){
 }
 function move_stickH(dir){
 	//console.log("dir " + dir+" len "+);
-	if( m_s_schar == 0){
+	if( m_s_schar != 0 && !selecting){
 		highlightSelection(false);
 	}
 	time = m_blink_time;
@@ -126,9 +129,9 @@ function drawIdex(){
 	if(selecting){
 		highlightSelection(true);
 	}
-	else if( m_s_schar != 0){
+	/*else if( m_s_schar != 0){
 		highlightSelection(false);
-	}
+	}*/
 }
 function printCharacter(t){
 	//console.log(charIndex);
@@ -235,7 +238,11 @@ function highlightSelection(show){
 		//select chars on that line between start and end
 		var selected_chars = $("#l"+m_s_sline).find(".c");
 		//highlight chars
-		for(var i = m_s_schar; i <=charIndex; i++){
+		var i = m_s_schar;
+		var end = charIndex;
+		if(i>charIndex) {i=charIndex; end = m_s_schar;}
+		i+=1;
+		for(; i <= end; i++){
 			if(show)
 				selected_chars.eq(i).addClass("selected");
 			else{
