@@ -1,83 +1,127 @@
+/*
+Created by: Artemijs Poznaks
+Created on: 20/08/2016
+Last Edit: 29/08/2016
+
+
+	This file is responsible for accepting user input string from Input.js. It then proceses the string and does an appropriate action.
+Each character is attached to the html page as a <p id = "c1" class = 'c'> D </p>. 
+
+	* The space is drawn as a "_" with 0 opacity because it is the most convinient way of getting the "|" to align, the same as with other characters.
+	* There is an uneditable space as character at index 0, this is so that the "|" starts in its proper position
+		the space is uneditable through the editor, because of that you will often see magic +/-1 in for loops
+*/
+
+/*
+KNOWN BUGS :
+	- shift selecting and then going back does not deselect letters
+	- shift and type auto selects the letter that you type
+	- shift click looks like it selects the right thing but then doesnt deselect properly
+*/
+/*
+TO DO LIST:
+	CTRL+Z
+	HOME button bringing the index to start of line
+	END button bringing the index to end of line
+	MOUSE click and drag to select (just like shift select)
+*/
+
+
+
 var m_text = new Array();
+
+//index of which line and which position to insert a new character
 var charIndex = 0;
 var lineIndex = 0;
-var time =0;
+
+var time =0;//used for blinking the "|" 
 var m_blink_time =35;
+
 var m_s_sline =0; //start selection line index
 var m_s_schar =0;//start selection character index
 //use current character index and current line index for end selection
 //and color all the characters as selected in between
 var selecting = false;
 
+/*
+	creates the first character of the first line
+	begins the update loop
+	draws "|"
+*/
 function onLoad(){
 	$("#l"+lineIndex).append("<p id='c0' class='c space'>_</p>");
-	//var child = $("#Stick").remove();
-	//var parent = $("#l"+lineIndex);
-	//parent = parent.find("#c"+(charIndex));
-	//parent.append("<p id='Stick'>|</p>");
 	update();
 	drawIdex();
-		//addChar(":");
 }
-function addChar(t){
+/*
+	Analyzes user input and selects appropriate action
+*/
+function processChar(t){
+	//shift select
 	if( m_s_schar != 0 && !selecting){
 		highlightSelection(false);
 	}
+	//erase a char
 	if(t == "backspace"){
 		backspace();
 		drawIdex();
 	}
+	//tab
 	else if (t == "/t"){
 		tab();
 	}
+	//space
 	else if(t == " ")t = ' ';
 	
 	if(t == "/n"){
 		newLine();
-
 	}
 	else if(t != "/n" && t !="/t" && t != "backspace"){
-		//char index here 
+		//if its just a number or a letter
 		m_text[lineIndex]+=t;
+		//display it
 		printCharacter(t);
+		//move the index forward
 		charIndex++;
+		//draw the "|"
 		drawIdex();
 		
 	}
+	//i re add  the callback to all characters because im not very smart
 	$(".c").click(function(){
+		//position the "|" where clicked
 		var id = $(this).attr("id");
 		charIndex = parseInt(id.substr(1,id.length));
 		id = $(this).parent().attr("id");
 		lineIndex = parseInt(id.substr(1,id.length));
 		drawIdex();
 	});
-	//testing
 }
 function tab(){
 	m_text[lineIndex]+="\t";
 
 	addChar(" ");
 	console.log("tab");
-	//charIndex++;
 	addChar(" ");
 	console.log("tab");
-	//charIndex++;
 	addChar(" ");
 	console.log("tab");
-	//charIndex++;
 	addChar(" ");
 	console.log("tab");
-	//charIndex++;
-	//drawIdex();
 }
+/*
+	moves the "|" up or down
+	prevents from going to far up or too far down
+	automatically deselects any selected text
+*/
 function move_stickV(dir){
-	if( m_s_schar != 0 && !selecting){
+	if( m_s_schar != 0 && !selecting){//deselect selected text
 		highlightSelection(false);
 	}
 	time = m_blink_time;
-	if(dir < 0 && lineIndex ==0) return;
+	if(dir < 0 && lineIndex ==0) return;//do nothing if very first char of first line
 	var all_lines = $(".l");
-	if(dir > 0 && lineIndex >= all_lines.length-1) return;
+	if(dir > 0 && lineIndex >= all_lines.length-1) return;//do nothing if last char of last line
 
 	var nextLineLen = all_lines.eq(lineIndex+dir).find(".c").length;
 	console.log(nextLineLen);
@@ -85,8 +129,10 @@ function move_stickV(dir){
 	lineIndex+=dir;
 	drawIdex();
 }
+/*
+	same as move_stickV but horizontally
+*/
 function move_stickH(dir){
-	//console.log("dir " + dir+" len "+);
 	if( m_s_schar != 0 && !selecting){
 		highlightSelection(false);
 	}
@@ -111,17 +157,13 @@ function move_stickH(dir){
 	}
 	charIndex+=dir;
 	drawIdex();
-	//console.log("to "+"#c"+(charIndex));
-
 }
+/*
+	draws the "|"
+*/
 function drawIdex(){
-	
-	//var child = $("#Stick").remove();
 	var l = $("#l"+lineIndex);
 	var parent = l.find("#c"+(charIndex));
-	
-	//console.log(charIndex+1);
-	//parent.append("<p id='Stick'>|</p>");
 	$("#Stick").css({
 		top: ( parent.offset().top -  parent.height()),
 		left:(parent.offset().left+  parent.width())
@@ -129,27 +171,20 @@ function drawIdex(){
 	if(selecting){
 		highlightSelection(true);
 	}
-	/*else if( m_s_schar != 0){
-		highlightSelection(false);
-	}*/
 }
+/*
+	display character on screen
+	spaces are shown as "_" with 0 opacity
+*/
 function printCharacter(t){
-	//console.log(charIndex);
-	
-	var l = $("#l"+lineIndex);//.find("#c"+charIndex);
+	var l = $("#l"+lineIndex);
 	var allChars = l.find(".c");
 	if(charIndex < allChars.length){
-		//this is replacing
-		//allChars.eq(charIndex).text(t);
-		//var len = (allChars.length-1) - charIndex;
 		for( var i =charIndex+1; i<allChars.length; i++){
-			//console.log(allChars.eq(i).attr("id"));
 			allChars.eq(i).attr('id','c'+(i+1));
 		}
 		if(t == ' '){
 			var space = $("<p id='c"+(charIndex+1)+"' class = 'c space'>_</p>");
-			//$('[class*="OtherFeatur"]').css("opacity", 0.5);
-			//space.css("opacity", 0);
 			space.insertAfter(allChars.eq(charIndex));
 		}
 		else {
@@ -161,14 +196,17 @@ function printCharacter(t){
 	else
 		if(t == ' '){
 			l.append("<p id='c"+charIndex+"' class = 'c space'>_</p>");
-			//$('[class*="OtherFeatur"]').css("opacity", 0.5);
-			//$("#c"+(charIndex)).css("opacity", 0);
 		}
 		else {
 			l.append("<p id='c"+charIndex+"' class = 'c'>"+t+"</p>");
 			console.log("created c"+charIndex);
 		}
 }
+/*
+	erase a char
+	erase the line if erased the last character
+	move index to previous line if erased the last character
+*/
 function backspace(){
 	if(charIndex<=0 && lineIndex <=0)return;
 	if(charIndex <= 0){
@@ -194,10 +232,17 @@ function backspace(){
 	$("#l"+lineIndex).find("#c"+(charIndex)).remove();
 	charIndex--;
 }
+/*
+	create a new element line
+	add the default first character
+	draw index
+	move any lines under it down by 1
+	move any text on previous line to new line 
+*/
 function newLine(){
 
 
-	var l = $("#l"+lineIndex);//.find("#c"+charIndex);
+	var l = $("#l"+lineIndex);
 	var allChars = l.find(".c");
 	
 	
@@ -207,18 +252,15 @@ function newLine(){
 	/*
 	i need to somehow push all existing L's down after this new L
 	like what i did with inserting a character in the middle of the line 
-
 	*/
 	var all_lines = $(".l");
 	lineIndex++;
 	for(var i = lineIndex; i < all_lines.length+1; i++){
 		all_lines.eq(i).attr('id','l'+ (i+1));
 	}
-	//$("<p id='c"+(lineIndex)+"' class = 'c'>"+t+"</p>").insertAfter(allChars.eq(charIndex));
 	var br = $("<br style='clear:both'>");
 	var line = $("<p id='l"+lineIndex+"' class = 'l'></p>");
 	line = line.append(br);
-	//br.insertAfter(all_lines.eq(lineIndex));
 	line.insertAfter(all_lines.eq(lineIndex-1));
 	line.append("<p id='c0' class='c space'>_</p>");
 	var id =1;
@@ -230,6 +272,14 @@ function newLine(){
 	drawIdex();
 
 }
+/*
+	this is just to make the highlightSelection function smaller
+	adds or removes chunks of characters to selection
+	show = bool
+	first = index where to start selecting
+	last = index where to end selecting
+	allChars = array of characters
+*/
 function go_throuhg_line(show, first, last, allChars){
 	first+=1;
 	for(var j = first; j <= last; j++){
@@ -263,43 +313,38 @@ function highlightSelection(show){
 		}
 	}
 	else{
-		//bugs
-			//when adding more than one line to selection onyl half of the line is selected ---- solved
-			//when adding line from down to up it adds in the reverse order
-			var begin = m_s_sline; 
-			var last = lineIndex;
-			if(begin>last) {begin=last; last = m_s_sline;}
-			for(var i = begin; i <= last; i++){
-				//for each line 
-				var allChars = $("#l"+i).find(".c");
-				if(i == m_s_sline){
-					//the first line
-					console.log("first");
-					var s1 = m_s_schar; 
-					var e1 = allChars.length;
-					if(m_s_sline > lineIndex){s1 =0; e1 = m_s_schar;}
-					go_throuhg_line(show, s1, e1, allChars);
-				}
-				else if( i == lineIndex ){
-					//the last line
-					console.log("last");
-					var s1 = 0; 
-					var e1 = charIndex;
-					if(m_s_sline > lineIndex){s1 =charIndex; e1 = allChars.length;}
-					go_throuhg_line(show, s1, e1, allChars);
-				}
-				else{
-					//all lines inbetween
-					console.log("full");
-					go_throuhg_line(show, 0, allChars.length, allChars);
-				}
+		//when adding line from down to up it adds in the reverse order
+		var begin = m_s_sline; 
+		var last = lineIndex;
+		if(begin>last) {begin=last; last = m_s_sline;}
+		for(var i = begin; i <= last; i++){
+			//for each line 
+			var allChars = $("#l"+i).find(".c");
+			if(i == m_s_sline){
+				//the first line
+				console.log("first");
+				var s1 = m_s_schar; 
+				var e1 = allChars.length;
+				if(m_s_sline > lineIndex){s1 =0; e1 = m_s_schar;}
+				go_throuhg_line(show, s1, e1, allChars);
 			}
+			else if( i == lineIndex ){
+				//the last line
+				console.log("last");
+				var s1 = 0; 
+				var e1 = charIndex;
+				if(m_s_sline > lineIndex){s1 =charIndex; e1 = allChars.length;}
+				go_throuhg_line(show, s1, e1, allChars);
+			}
+			else{
+				//all lines inbetween
+				console.log("full");
+				go_throuhg_line(show, 0, allChars.length, allChars);
+			}
+		}
 	}
 }
 function shiftSelect(){
-	/*var l = $("#l"+lineIndex);//.find("#c"+charIndex);
-	l.find("#c"+charIndex).addClass("selected");
-	charIndex+=dir;*/
 	m_s_sline = lineIndex;
 	m_s_schar = charIndex;
 	selecting = true;
@@ -332,10 +377,5 @@ function update()
 		
 	}
 	else{time =0;}
-	//console .log("time : "+time);
     window.requestAnimationFrame(update);
 }
-
-
-
-//home+end keys

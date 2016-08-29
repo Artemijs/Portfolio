@@ -1,11 +1,20 @@
+/*
+Created by: Artemijs Poznaks
+Created on: 20/08/2016
+Last Edit: 29/08/2016
+*/
+/*
+	This file takes the keycode number and converts it to a character string. I would argue that the move_stickV and 
+move_stickH should be in the Editor.js, also i have my worries about creating such a large array and leaving it partially undefined
+*/
 var keys = new Array();
 var caps =  false;
 var shift =  false;
 var ctrl =  false;
 var alt =  false;
 keys[8] = "backspace";
-keys[9] = "/t";
-keys[13] = "/n";
+keys[9] = "\t";
+keys[13] = "\n";
 keys[16] = "shift";
 keys[17] = "ctrl";
 keys[18] = "alt";
@@ -170,7 +179,7 @@ function print(keyString, keyCode){
 		keyString = shiftSort(keyCode, keyString);
 	}
 	//console.log(keyCode);
-	addChar(keyString);
+	processChar(keyString);
 }
 function shiftSort(keyCode, keyString){
 
