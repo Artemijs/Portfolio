@@ -21,6 +21,10 @@ KNOWN BUGS :
 /*
 TO DO LIST:
 	CTRL+Z
+	DELETE SELECTION
+	COPY
+	PASTE
+	CUT
 	HOME button bringing the index to start of line
 	END button bringing the index to end of line
 	MOUSE click and drag to select (just like shift select)
@@ -67,16 +71,16 @@ function processChar(t){
 		drawIdex();
 	}
 	//tab
-	else if (t == "/t"){
+	else if (t == "\t"){
 		tab();
 	}
 	//space
 	else if(t == " ")t = ' ';
 	
-	if(t == "/n"){
+	if(t == "\n"){
 		newLine();
 	}
-	else if(t != "/n" && t !="/t" && t != "backspace"){
+	else if(t != "\n" && t !="\t" && t != "backspace"){
 		//if its just a number or a letter
 		m_text[lineIndex]+=t;
 		//display it
@@ -208,23 +212,28 @@ function printCharacter(t){
 	move index to previous line if erased the last character
 */
 function backspace(){
-	if(charIndex<=0 && lineIndex <=0)return;
+	if(charIndex<=0 && lineIndex <=0)return;//do nothing if on first char of first line
 	if(charIndex <= 0){
 		var charlen = $("#l"+lineIndex).find(".c").length;
-		if(charlen <= 1){
+		if(charlen <= 1){//if at first char AND theres nothing left on that line, remove line
 			$("#l"+lineIndex).remove();
+			move_stickH(-1);//move index up
+			console.log("REMOVING LINE");
 		}
-		else{
-			var chars = $("#l"+lineIndex).find(".c");
-			move_stickH(-1);
-			for( var i=1; i < chars.length; i++){
+		else{//if at first char AND theres text left on that line
+			console.log("REMOVING LINE and MOVING TEXT");
+			var chars = $("#l"+lineIndex).find(".c");//get the rest of text on current line
+			move_stickH(-1);//move index up
+			var char_ind = charIndex;//this is so that the index doesnt start at end of line
+			for( var i=1; i < chars.length; i++){//go through each character and assign it to the new line
 				var element = chars.eq(i);
 				if(element.hasClass("space"))
-					addChar(" ");
+					processChar(" ");
 				else
-					addChar(element.text());
+					processChar(element.text());
 			}
-			$("#l"+(lineIndex+1)).remove();
+			charIndex = char_ind;//this is so that the index doesnt start at end of line
+			$("#l"+(lineIndex+1)).remove();//finally remove the line
 		}
 		
 		return;
