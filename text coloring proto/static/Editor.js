@@ -6,11 +6,7 @@ Last Edit: 29/08/2016
 //lets start by identifying words
 function onLoad(){
 	var text = $("#text_main");
-	$("#l0").css({
-		top: ( text.offset().top ),
-		left:(text.offset().left)
-	});
-	$( "#l0").unbind( "click" );
+	new_line();
 	/*$('[contenteditable]').on('focus', function() {
 	    var $this = $(this);
 	    $this.data('before', $this.html());
@@ -25,12 +21,17 @@ function onLoad(){
 	    return $this;
 	});*/
 }
-var last_space = -1;
+var last_space = 1;
+var c_line;
+var line_count =-1;
 window.addEventListener('keyup',function(event){
-	find_word();
+	if(event.which == 13){
+		//new line 
+		new_line();
+	}else
+		find_word();
 },false);
 function find_word(){
-	//console.log($("#text_main").text());
 	var text = $("#text_main").text();
 	if(text[text.length-1] == " " && last_space == -1){
 		//console.log("space 1");
@@ -43,10 +44,26 @@ function find_word(){
 		last_space = text.length;
 		//$("#text_main").text(text);
 		console.log("word  ."+word+".");
-		$("#l0").append("<span class='"+word+" c' id='"+word+"'>"+word+"</span>");
+		c_line.append("<span class='"+word+" c' id='"+word+"'>"+word+"</span>");
 		
 		//$("#text_main").click();
 	}
+}
+function new_line(){
+	var text = $("#text_main");
+	line_count++;
+	c_line = $("<p id = 'l"+line_count+"' class = 'l'></p>");
+	var offset =0;
+	if(line_count !=0){
+		offset = text.height();
+		offset= offset-offset/(line_count+1)
+		console.log(offset +" "+text.height());
+	}
+	c_line.css({
+		top: ( text.offset().top+offset ),
+		left:(text.offset().left)
+	});
+	$("#main").append(c_line);
 }
 //stephen oneil 
 //slavic.salajs@gmail.com
