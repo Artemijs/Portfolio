@@ -1,12 +1,20 @@
 /*
 Created by: Artemijs Poznaks
 Created on: 30/08/2016
-Last Edit: 29/08/2016
+Last Edit: 02/09/2016
 */
 //lets start by identifying words
 function onLoad(){
 	var text = $("#text_main");
 	new_line();
+	var text = $("#text_main").html();
+	console.log(text);
+	//find the indeces of line endings
+	var l_count = 0;
+	for(var i = 0; i < text.length; i++){
+		var char = text[i];
+		if(i == "<" && (i + 1) == "b" && (i+2) == "r" && (i + 3) == ">")line_endings[l_count] = i;
+	}
 	/*$('[contenteditable]').on('focus', function() {
 	    var $this = $(this);
 	    $this.data('before', $this.html());
@@ -21,16 +29,37 @@ function onLoad(){
 	    return $this;
 	});*/
 }
-var last_space = 1;
-var c_line;
-var line_count =-1;
+var line_endings = new Array();
 window.addEventListener('keyup',function(event){
-	if(event.which == 13){
+
+	proccess_line();
+	/*if(event.which == 13){
 		//new line 
 		new_line();
 	}else
-		find_word();
+		find_word();*/
 },false);
+
+
+function proccess_line(){
+	var text = $("#text_main").html();
+	console.log(text);
+	//find a changed line
+	for(var i =0; i < line_endings.length; i++){
+
+	}
+	//find the indeces of line endings
+	var l_count = 0;
+	for(var i = 0; i < text.length; i++){
+		var char = text[i];
+		if(i == "<" && (i + 1) == "b" && (i+2) == "r" && (i + 3) == ">")line_endings[l_count] = i;
+	}
+}
+
+
+var last_space = 1;
+var c_line;
+var line_count =-1;
 function find_word(){
 	var text = $("#text_main").text();
 	if(text[text.length-1] == " " && last_space == -1){
