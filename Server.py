@@ -35,6 +35,15 @@ def try_exit():
 class Index(tornado.web.RequestHandler):
 	def get(self):
 		self.render("index.html")
+
+#saves text
+class SaveFile(tornado.web.RequestHandler):
+	def post(self):
+		print("saving file")
+		message = self.request.body.decode("utf-8")
+		print (message)
+		self.write("ok lol")
+
 #used to define where files are stored and where the source files are located
 settings = {
 	"static_path": os.path.join(os.path.dirname(__file__), "static"),
@@ -42,6 +51,7 @@ settings = {
 #bind handlers to the application urls
 application = tornado.web.Application([
 	(r"/", Index),
+	(r"/save", SaveFile),
 ], **settings)
 
 if __name__ == "__main__":
