@@ -10,11 +10,15 @@
 	<script src="static/mode/javascript/javascript.js"></script>
 	<script src="static/SetUp.js"></script>
 	</head>
-	<body onload= "onLoad(); loadDirs('projects/');">
+	<body onload= "onLoad(); loadDirs('projects/');" oncontextmenu="return false;">
 		<div id = "project_panel" class = "file_viewer">
 			<ul id="projects">
-
 			</ul>
+		</div>
+		<div id= "file_name_nav" class = "file_name_nav">
+			<!--<span id="name_1" class = "name_tab"> name 1</span>
+			<span id="name_2" class = "name_tab"> name 2</span>
+			<span id="name_3" class = "name_tab"> name 3</span>-->
 		</div>
 		<div id = "code_window">
 			<textarea id="myText" rows="4" cols="10"></textarea>

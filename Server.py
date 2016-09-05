@@ -50,6 +50,7 @@ class ProjectFileList(tornado.web.RequestHandler):
 		some_dir = self.request.body.decode("utf-8")
 		level = 1
 		some_dir = some_dir.rstrip(os.path.sep)
+		some_dir = "./static/"+some_dir
 		print(some_dir)
 		assert os.path.isdir(some_dir)
 		some_dir = some_dir[:-1]#remove last "/"
@@ -64,6 +65,35 @@ class ProjectFileList(tornado.web.RequestHandler):
 		print(list_of_dirs)
 		self.write(json.dumps(list_of_dirs))
 
+#return text inside a file
+class GetFileText(tornado.web.RequestHandler):
+	def get(self):
+		path = self.get_argument('file_path')
+		path = path[:-1]
+		ind = path.rfind("_")
+		path = path[:ind] + "." + path[ind+1:]
+		path = "./static/" + path
+		print(" opening file :			 "+path)
+		content = ""
+		with open(path) as f:
+			content = f.read()
+		self.write(content)
+
+#save text to file
+class SaveCode(tornado.web.RequestHandler):
+	def post(self):
+		path = self.get_argument('file_path')
+		path = path[:-1]
+		ind = path.rfind("_")
+		path = path[:ind] + "." + path[ind+1:]
+		path = "./static/" + path
+		code = self.get_argument('code')
+		print("\n")
+		print("saving file "+path)
+		print(code)
+		with open(path, "w") as f:
+			f.write(code)
+		self.write("dobra")
 
 #used to define where files are stored and where the source files are located
 settings = {
@@ -73,7 +103,9 @@ settings = {
 application = tornado.web.Application([
 	(r"/", Index),
 	(r"/save", SaveFile),
+	(r"/save_code", SaveCode),
 	(r"/file_panel", ProjectFileList),
+	(r"/file", GetFileText),
 ], **settings)
 
 if __name__ == "__main__":
