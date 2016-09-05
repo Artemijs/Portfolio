@@ -42,7 +42,27 @@ class SaveFile(tornado.web.RequestHandler):
 		print("saving file")
 		message = self.request.body.decode("utf-8")
 		print (message)
-		self.write("ok lol")
+		self.write("dobra")
+
+#return directory and file list for the project view panel
+class ProjectFileList(tornado.web.RequestHandler):
+	def post(self):
+		some_dir = self.request.body.decode("utf-8")
+		level = 1
+		some_dir = some_dir.rstrip(os.path.sep)
+		print(some_dir)
+		assert os.path.isdir(some_dir)
+		some_dir = some_dir[:-1]
+		list_of_dirs = [some_dir[some_dir.rindex("/")+1:],]
+
+		for root, dirs, files in os.walk(some_dir):
+			depth = root.count(os.path.sep)
+			if depth < level:
+				list_of_dirs+=dirs
+		print("result")
+		print(list_of_dirs)
+		self.write(json.dumps(list_of_dirs))
+
 
 #used to define where files are stored and where the source files are located
 settings = {
@@ -52,6 +72,7 @@ settings = {
 application = tornado.web.Application([
 	(r"/", Index),
 	(r"/save", SaveFile),
+	(r"/file_panel", ProjectFileList),
 ], **settings)
 
 if __name__ == "__main__":

@@ -5,11 +5,20 @@
 	<script src = "http://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="static/lib/codemirror.js"></script>
 	<link rel="stylesheet" href="static/lib/codemirror.css">
+	<link rel="stylesheet" href="static/Editor.css">
+	<script src="static/file_viewer.js"></script>
 	<script src="static/mode/javascript/javascript.js"></script>
 	<script src="static/Connection.js"></script>
 	</head>
-	<body onload= "onLoad();">
-		<textarea id="myText" rows="4" cols="10"></textarea>
+	<body onload= "onLoad(); loadDirs('projects/');">
+		<div class = "file_viewer">
+			<ul id="projects">
+
+			</ul>
+		</div>
+		<div id = "code_window">
+			<textarea id="myText" rows="4" cols="10"></textarea>
+		</div>
 		 <button type="button" id="save_btn">Save</button> 
 	</body>
 </html>

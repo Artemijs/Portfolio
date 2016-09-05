@@ -1,0 +1,12 @@
+.file_viewer{
+	background-color : #D8D8AB;
+	width: 20%;
+	height:100%;
+	border-style: ridge;
+}
+.child{
+	margin-left: 2em;
+}
+li {
+    list-style-type: none;
+}

@@ -28,3 +28,12 @@ function sendMessage(){
 	    }
 	}
 }
+/*
+	undeclared variable is a must have
+	also cant live without auto complete
+		what to auto complete:
+			varibles written in that file
+			functions in that file
+			variables and functions of an object
+
+*/
