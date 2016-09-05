@@ -52,13 +52,14 @@ class ProjectFileList(tornado.web.RequestHandler):
 		some_dir = some_dir.rstrip(os.path.sep)
 		print(some_dir)
 		assert os.path.isdir(some_dir)
-		some_dir = some_dir[:-1]
-		list_of_dirs = [some_dir[some_dir.rindex("/")+1:],]
+		some_dir = some_dir[:-1]#remove last "/"
+		list_of_dirs = [some_dir[some_dir.rindex("/")+1:],]#find the parent folder
 
 		for root, dirs, files in os.walk(some_dir):
 			depth = root.count(os.path.sep)
 			if depth < level:
-				list_of_dirs+=dirs
+				list_of_dirs += dirs + files
+				#print("files  :: "+str(files))
 		print("result")
 		print(list_of_dirs)
 		self.write(json.dumps(list_of_dirs))

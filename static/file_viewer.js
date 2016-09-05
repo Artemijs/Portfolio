@@ -11,15 +11,27 @@ function display(response){
 	console.log(response);
 	var obj = $.parseJSON(response);
 	for(var i =1; i < obj.length;i++){
-		var itm = $("<li id='"+obj[i]+"' class = 'child'>"+ obj[i] +"</li>");
-		itm.click(function(event){
-			event.stopPropagation();
-			 if($(this).children().length <= 0)
-				expand_project(this);
-			else{
-				close_expansion(this);
-			}
-		});
+		//gotta find if its file or folder
+		var itm;
+		if(obj[i].lastIndexOf(".") == -1){//folder{}
+			itm = $("<li id='"+obj[i]+"' class = 'child folder'>"+ obj[i] +"</li>");
+			itm.click(function(event){
+				event.stopPropagation();
+				if($(this).children().length <= 0)
+					expand_project(this);
+				else{
+					close_expansion(this);
+				}
+			});
+		}
+		else{//file
+			itm = $("<li id='"+obj[i]+"' class = 'child file'>"+ obj[i] +"</li>");
+			itm.click(function(event){
+				event.stopPropagation();
+				//open file later
+			});
+		}
+		
 		$("#"+obj[0]).append(itm);
 	}
 }

@@ -1,5 +1,8 @@
 var myCodeMirror;
 function onLoad(){
+	$("#project_panel").height($(window).height()*0.97);
+
+
 	var myTextArea = document.getElementById('myText');
 	myCodeMirror = CodeMirror.fromTextArea(myTextArea,{
 		lineNumbers: true,
@@ -8,7 +11,7 @@ function onLoad(){
 	$("#save_btn").click(function(){
 		sendMessage();
 	});
-	myCodeMirror.setSize(500, 300);
+	myCodeMirror.setSize($(window).width() - myCodeMirror.left, $(window).height()*0.97);
 
 }
 
