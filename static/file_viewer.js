@@ -175,7 +175,16 @@ function save_file(){
 	});
 }
 function new_file(path){
-
+	var name = "newFile.txt";
+	itm = $("<li id='"+name+"' class = 'child file'>"+ name +"</li>");
+	file_tree_click_event(itm, true);
+	$(selected_element).append(itm);
+	$.post("/new_file",{
+		"file_path":full_path(itm)
+	},function(){
+		itm.click();
+		rename();
+	});
 }
 function new_folder(path){
 	var name = "newFolder";
@@ -246,3 +255,8 @@ window.addEventListener("click", function(){
 	if($("#context_menu").css('display') != 'none' )//if its visible
 		$("#context_menu").hide();
 });
+/*
+	so that i dont forget
+		check if newFolder or newFile already exists, if it does count how many and create it with a +1 (newFolder4)
+		not create then rename
+*/
