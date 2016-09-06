@@ -111,6 +111,7 @@ function open_file(that){
 	console.log("id "+id );
 	if($("#"+id).length > 0){//exists
 		//display the code page
+		show_code($("#"+id));
 	}
 	else{
 		var element = $('<span id="'+id+'" class = "name_tab">'+$(that).text()+'</span>');
@@ -118,10 +119,7 @@ function open_file(that){
 		element.click(function(event){
 			event.stopPropagation();
 			show_code(this);
-			if( event.which == 2 ) {
-				event.preventDefault();
-				close_tab(this);
-			}
+
 		});
 		element.on("mousedown", function(e) {
 			if( e.which == 2 ) {
@@ -132,6 +130,7 @@ function open_file(that){
 		$("#file_name_nav").append(element);
 		if(current_page != -1)
 			code_pages[current_page+1] = myCodeMirror.getValue();
+		$("#"+code_pages[current_page]).removeClass("selected");
 		current_page = code_pages.length;
 		code_pages[code_pages.length] = id;
 		var path = full_path(that);
@@ -141,15 +140,18 @@ function open_file(that){
 		.done(function(data){
 			myCodeMirror.setValue(data);
 			code_pages[code_pages.length] = data;
+			$("#"+code_pages[current_page]).addClass("selected");
 		});
 	}
 }
 function show_code(that){
 	code_pages[current_page+1] = myCodeMirror.getValue();
+	$("#"+code_pages[current_page]).removeClass("selected");
 	for(var i =0; i < code_pages.length; i+=2){
 		if($(that).attr("id") == code_pages[i]){
 			myCodeMirror.setValue(code_pages[i+1]);
 			current_page = i;
+			$("#"+code_pages[current_page]).addClass("selected");
 			break;
 		}
 	}
