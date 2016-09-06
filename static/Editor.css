@@ -39,3 +39,10 @@ li {
 .selected{
 	background-color: white;
 }
+.pop_up{
+	z-index : 1;
+	position : absolute;
+	padding: 50px 55px 50px 55px;
+	background-color: grey;
+	border-style: ridge;
+}

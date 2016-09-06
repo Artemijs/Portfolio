@@ -22,6 +22,11 @@ function onLoad(){
 	});
 	$("#rename").click(function(){rename();});
 	$("#delete").click();
+	$("#input_box").hide();
+	$("#input_box").css({
+		left:$(window).width()/2 - $("#input_box").width()/2,
+		top:$(window).height()/2 + $("#input_box").height()/2
+	});
 }
 
 function sendMessage(){

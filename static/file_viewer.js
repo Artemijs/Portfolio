@@ -169,7 +169,27 @@ function new_file(path){
 function new_folder(path){
 
 }
-function rename(el){
+function rename(new_name){
+	if(new_name == undefined){
+		//display a pop up with a textbox 
+		$("#input_box").show();
+		$("#input_field").focus();
+	}
+	else{
+		$("#input_box").hide();
+		var old_path = full_path(selected_element);
+		$(selected_element).text(new_name);
+		$(selected_element).attr("id", new_name);
+		var new_path = full_path(selected_element);
+		$.post("/rename",
+		{
+			"file_path": old_path,
+			"new_file_path": new_path
+		}
+		, function(data, status){
+			console.log(data);
+		});
+	}
 
 }
 var ctrl = false;
@@ -189,6 +209,14 @@ window.addEventListener('keyup',function(event){
 	
 	if(event.which == 17){//ctrl
 		ctrl = false;
+	}
+	if(event.which == 13){//enter
+		//if(currently typing in a ne name)
+		if($("#input_box").css('display') != 'none' ){//if its visible
+			var new_name = $("#input_field").val();
+			console.log("new name is "+new_name);
+			rename(new_name);
+		}
 	}
 },false);
 window.addEventListener("click", function(){

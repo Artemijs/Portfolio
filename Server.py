@@ -95,6 +95,21 @@ class SaveCode(tornado.web.RequestHandler):
 			f.write(code)
 		self.write("dobra")
 
+#rename files por folders
+class Rename(tornado.web.RequestHandler):
+	def post(self):
+		path = self.get_argument('file_path')
+		path = "./static/"+path[:-1]
+		print()
+		print("renaming from "+path)
+		new_path = self.get_argument('new_file_path')
+		new_path = "./static/"+new_path[:-1]
+		print("to "+new_path)
+		assert os.path.isdir(path)
+		#assert os.path.isdir(new_path)
+		os.rename(path, new_path)
+		self.write("dobra")
+
 #used to define where files are stored and where the source files are located
 settings = {
 	"static_path": os.path.join(os.path.dirname(__file__), "static"),
@@ -106,6 +121,7 @@ application = tornado.web.Application([
 	(r"/save_code", SaveCode),
 	(r"/file_panel", ProjectFileList),
 	(r"/file", GetFileText),
+	(r"/rename", Rename),
 ], **settings)
 
 if __name__ == "__main__":
