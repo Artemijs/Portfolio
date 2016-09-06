@@ -116,9 +116,19 @@ function open_file(that){
 		var element = $('<span id="'+id+'" class = "name_tab">'+$(that).text()+'</span>');
 
 		element.click(function(event){
-				event.stopPropagation();
-				show_code(this);
-			});
+			event.stopPropagation();
+			show_code(this);
+			if( event.which == 2 ) {
+				event.preventDefault();
+				close_tab(this);
+			}
+		});
+		element.on("mousedown", function(e) {
+			if( e.which == 2 ) {
+				e.preventDefault();
+				close_tab(this);
+			}
+		});
 		$("#file_name_nav").append(element);
 		if(current_page != -1)
 			code_pages[current_page+1] = myCodeMirror.getValue();
@@ -143,6 +153,21 @@ function show_code(that){
 			break;
 		}
 	}
+}
+function close_tab(that){
+	//get id
+	var id = $(that).attr("id");
+	//find it in array
+	var index = -1;
+	for(var i =0; i < code_pages.length; i+=2){
+		if(id == code_pages[i]){
+			index = i;
+			break;
+		}
+	}
+	code_pages.splice(index, 2);
+	$(that).remove();
+	//do something
 }
 function full_path(element){
 	var id= $(element).attr('id');
@@ -224,7 +249,7 @@ function rename(new_name){
 }
 function remove(){
 	var path = full_path(selected_element);
-	$(selected_element).empty();
+	$(selected_element).remove();
 	$.post("/remove",
 		{
 			"file_path": path,
@@ -272,5 +297,4 @@ window.addEventListener("click", function(){
 		not create then rename
 		midle mouse close file tabs
 		f2 to rename files
-		
 */
