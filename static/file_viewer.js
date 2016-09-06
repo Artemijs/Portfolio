@@ -1,5 +1,6 @@
 var code_pages = new Array();
 var current_page= -1;
+var selected_element;//selected file or folder in the file tree
 function loadDirs(dir){
 	//var path  = "./static/"+dir;
 	var path  = dir;
@@ -10,6 +11,61 @@ function loadDirs(dir){
 		display_file_tree(data);
 	});
 }
+function file_tree_click_event(itm, file){
+	if(!file){//if folder, expand
+		itm.click(function(event){
+			event.stopPropagation();
+			if(selected_element == itm){
+				if($(this).children().length <= 0)
+					expand_project(this);
+				else{
+					close_expansion(this);
+				}
+			}
+			else{
+				if(selected_element != undefined)
+					$(selected_element).removeClass("selected");
+				selected_element = itm;
+				$(selected_element).addClass("selected");
+			}
+		});
+		itm.on('contextmenu', function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			show_context_menu();
+		});
+	}else{//if file, open
+		itm.click(function(event){
+			event.stopPropagation();
+			//open file
+			if(selected_element == itm){
+				open_file(this);
+			}
+			else{
+				if(selected_element != undefined)
+					$(selected_element).removeClass("selected");
+				selected_element = itm;
+				$(selected_element).addClass("selected");
+			}
+		});
+		itm.on('contextmenu', function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			show_context_menu();
+		});
+	}
+}
+function show_context_menu(){//display conetext menue at the position of the element
+	var el = selected_element;
+	console.log($(el).offset());
+	var cMenu = $("#context_menu");
+	cMenu.css({
+		top : $(el).offset().top,
+		left : $(el).offset().left,
+	});
+	cMenu.show();
+}
+
 function display_file_tree(response){
 	console.log(response);
 	var obj = $.parseJSON(response);
@@ -18,23 +74,12 @@ function display_file_tree(response){
 		var itm;
 		if(obj[i].lastIndexOf(".") == -1){//folder{}
 			itm = $("<li id='"+obj[i]+"' class = 'child folder'>"+ obj[i] +"</li>");
-			itm.click(function(event){
-				event.stopPropagation();
-				if($(this).children().length <= 0)
-					expand_project(this);
-				else{
-					close_expansion(this);
-				}
-			});
+			file_tree_click_event(itm, false);
 		}
 		else{//file
 			obj[i] = obj[i].replace(".", "_");
 			itm = $("<li id='"+obj[i]+"' class = 'child file'>"+ obj[i] +"</li>");
-			itm.click(function(event){
-				event.stopPropagation();
-				//open file
-					open_file(this);
-			});
+			file_tree_click_event(itm, true);
 		}
 		
 		$("#"+obj[0]).append(itm);
@@ -45,8 +90,6 @@ function close_expansion(that){
 }
 function expand_project(that){
 	console.log("clicked on "+$(that).attr("id"));
-	//.parent().text+that.text()
-	//.parent().text()+.parent().parent().text()+that.text()
 	var path = full_path(that);
 	loadDirs(path);
 }
@@ -56,7 +99,7 @@ function open_file(that){
 	console.log("is "+$("#"+id).length );
 	console.log("id "+id );
 	if($("#"+id).length > 0){//exists
-
+		//display the code page
 	}
 	else{
 		var element = $('<span id="'+id+'" class = "name_tab">'+$(that).text()+'</span>');
@@ -65,7 +108,6 @@ function open_file(that){
 				event.stopPropagation();
 				show_code(this);
 			});
-
 		$("#file_name_nav").append(element);
 		if(current_page != -1)
 			code_pages[current_page+1] = myCodeMirror.getValue();
@@ -121,6 +163,15 @@ function save_file(){
 		console.log(data);
 	});
 }
+function new_file(path){
+
+}
+function new_folder(path){
+
+}
+function rename(el){
+
+}
 var ctrl = false;
 window.addEventListener('keydown',function(event){
 	if(event.which == 17 && !ctrl){//ctrl
@@ -140,3 +191,7 @@ window.addEventListener('keyup',function(event){
 		ctrl = false;
 	}
 },false);
+window.addEventListener("click", function(){
+	if($("#context_menu").css('display') != 'none' )//if its visible
+		$("#context_menu").hide();
+});

@@ -1,8 +1,6 @@
 var myCodeMirror;
 function onLoad(){
 	$("#project_panel").height($(window).height()*0.97);
-
-
 	var myTextArea = document.getElementById('myText');
 	myCodeMirror = CodeMirror.fromTextArea(myTextArea,{
 		lineNumbers: true,
@@ -12,7 +10,18 @@ function onLoad(){
 		sendMessage();
 	});
 	myCodeMirror.setSize($(window).width() - myCodeMirror.left, $(window).height()*0.97);
-
+	$("#context_menu").hide();
+	$("#new_file").click(function(){
+		var path = full_path(selected_element);
+		console.log("creating a new file in " + path);
+		new_file(path);
+	});
+	$("#new_folder").click(function(){
+		console.log("creating a new folder in " + path);
+		new_folder(path);
+	});
+	$("#rename").click(function(){rename();});
+	$("#delete").click();
 }
 
 function sendMessage(){

@@ -29,3 +29,13 @@ li {
 .file_name_nav{
 	margin-left: 20em;
 }
+.context_menu{
+	position : absolute;
+	width: 25em;
+	height:10em;
+	background-color : #E5E5CE;
+	border-style: ridge;
+}
+.selected{
+	background-color: white;
+}
