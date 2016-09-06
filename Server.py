@@ -10,7 +10,7 @@ import json
 import ast
 import signal
 import logging
-import cgi, sys, os, random, string
+import cgi, sys, os, random, string, shutil
 import pymysql
 import base64
 from binascii import a2b_base64
@@ -132,7 +132,17 @@ class NewFile(tornado.web.RequestHandler):
 		print("creating "+path)
 		open(path, 'a').close()
 		self.write("dobra")
-
+class RemoveFile(tornado.web.RequestHandler):
+	def post(self):
+		path = self.get_argument('file_path')
+		ind = path.rfind("_")
+		if ind != -1 :
+			path = path[:ind] + "." + path[ind+1:]
+		path = "./static/"+path[:-1]
+		print()
+		print("deleting "+path)
+		shutil.rmtree(path)
+		self.write("dobra")
 #used to define where files are stored and where the source files are located
 settings = {
 	"static_path": os.path.join(os.path.dirname(__file__), "static"),
@@ -147,6 +157,7 @@ application = tornado.web.Application([
 	(r"/rename", Rename),
 	(r"/new_folder", NewFolder),
 	(r"/new_file", NewFile),
+	(r"/remove", RemoveFile),
 ], **settings)
 
 if __name__ == "__main__":

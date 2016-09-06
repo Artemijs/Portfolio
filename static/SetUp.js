@@ -22,7 +22,7 @@ function onLoad(){
 		new_folder(path);
 	});
 	$("#rename").click(function(){rename();});
-	$("#delete").click();
+	$("#delete").click(function(){remove();});
 	$("#input_box").hide();
 	$("#input_box").css({
 		left:$(window).width()/2 - $("#input_box").width()/2,

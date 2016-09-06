@@ -221,6 +221,17 @@ function rename(new_name){
 			console.log(data);
 		});
 	}
+}
+function remove(){
+	var path = full_path(selected_element);
+	$(selected_element).empty();
+	$.post("/remove",
+		{
+			"file_path": path,
+		}
+		, function(data, status){
+			console.log(data);
+		});
 
 }
 var ctrl = false;
@@ -259,4 +270,7 @@ window.addEventListener("click", function(){
 	so that i dont forget
 		check if newFolder or newFile already exists, if it does count how many and create it with a +1 (newFolder4)
 		not create then rename
+		midle mouse close file tabs
+		f2 to rename files
+		
 */
