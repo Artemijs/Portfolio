@@ -176,6 +176,7 @@ function rename(new_name){
 		$("#input_field").focus();
 	}
 	else{
+		new_name = new_name.replace(".","_");
 		$("#input_box").hide();
 		var old_path = full_path(selected_element);
 		$(selected_element).text(new_name);
@@ -215,6 +216,7 @@ window.addEventListener('keyup',function(event){
 		if($("#input_box").css('display') != 'none' ){//if its visible
 			var new_name = $("#input_field").val();
 			console.log("new name is "+new_name);
+			$("#input_field").val("");
 			rename(new_name);
 		}
 	}

@@ -103,9 +103,12 @@ class Rename(tornado.web.RequestHandler):
 		print()
 		print("renaming from "+path)
 		new_path = self.get_argument('new_file_path')
+		ind = new_path.rfind("_")
+		if ind != -1 :
+			new_path = new_path[:ind] + "." + new_path[ind+1:]
 		new_path = "./static/"+new_path[:-1]
 		print("to "+new_path)
-		assert os.path.isdir(path)
+		#assert os.path.isdir(path)
 		#assert os.path.isdir(new_path)
 		os.rename(path, new_path)
 		self.write("dobra")
