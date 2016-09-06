@@ -63,6 +63,17 @@ function show_context_menu(){//display conetext menue at the position of the ele
 		top : $(el).offset().top,
 		left : $(el).offset().left,
 	});
+
+	//file or folder ?
+	if((el).hasClass("file")){
+		//file, dont display any new file or new folder option
+		$("#new_file").hide();
+		$("#new_folder").hide();
+	}else if ((el).hasClass("folder")){
+		//folder display new file and new folder option
+		$("#new_file").show();
+		$("#new_folder").show();
+	}
 	cMenu.show();
 }
 
