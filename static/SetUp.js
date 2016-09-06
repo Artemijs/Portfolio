@@ -17,6 +17,7 @@ function onLoad(){
 		new_file(path);
 	});
 	$("#new_folder").click(function(){
+		var path = full_path(selected_element);
 		console.log("creating a new folder in " + path);
 		new_folder(path);
 	});

@@ -178,7 +178,17 @@ function new_file(path){
 
 }
 function new_folder(path){
-
+	var name = "newFolder";
+	itm = $("<li id='"+name+"' class = 'child folder'>"+ name +"</li>");
+	file_tree_click_event(itm, false);
+	$(selected_element).append(itm);
+	$.post("/new_folder",{
+		"file_path":full_path(itm)
+	},function(){
+		itm.click();
+		rename();
+	});
+	
 }
 function rename(new_name){
 	if(new_name == undefined){

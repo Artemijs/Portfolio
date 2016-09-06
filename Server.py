@@ -113,6 +113,16 @@ class Rename(tornado.web.RequestHandler):
 		os.rename(path, new_path)
 		self.write("dobra")
 
+#create a new folder
+class NewFolder(tornado.web.RequestHandler):
+	def post(self):
+		path = self.get_argument('file_path')
+		path = "./static/"+path[:-1]
+		print()
+		print("creating "+path)
+		os.makedirs(path)
+		self.write("dobra")
+
 #used to define where files are stored and where the source files are located
 settings = {
 	"static_path": os.path.join(os.path.dirname(__file__), "static"),
@@ -125,6 +135,7 @@ application = tornado.web.Application([
 	(r"/file_panel", ProjectFileList),
 	(r"/file", GetFileText),
 	(r"/rename", Rename),
+	(r"/new_folder", NewFolder),
 ], **settings)
 
 if __name__ == "__main__":
