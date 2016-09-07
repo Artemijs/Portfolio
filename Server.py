@@ -143,6 +143,16 @@ class RemoveFile(tornado.web.RequestHandler):
 		print("deleting "+path)
 		shutil.rmtree(path)
 		self.write("dobra")
+
+#create a new project
+class NewProject(tornado.web.RequestHandler):
+	def post(self):
+		print()
+		print("creating a new project")
+		shutil.copytree("./static/project_template", "./static/projects/project_template")
+		os.rename("./static/projects/project_template", "./static/projects/"+self.get_argument("name"))
+		self.write("dobra")
+
 #used to define where files are stored and where the source files are located
 settings = {
 	"static_path": os.path.join(os.path.dirname(__file__), "static"),
@@ -158,6 +168,7 @@ application = tornado.web.Application([
 	(r"/new_folder", NewFolder),
 	(r"/new_file", NewFile),
 	(r"/remove", RemoveFile),
+	(r"/new_project", NewProject),
 ], **settings)
 
 if __name__ == "__main__":

@@ -259,6 +259,23 @@ function remove(){
 		, function(data, status){
 			console.log(data);
 		});
+}
+function new_project(){
+	//send out a signal to create on the server
+	var name = "newProject";
+	$.post("/new_project",{"name":name}, function(data){
+		console.log(data);
+		if(data == "dobra"){
+			itm = $("<li id='"+name+"' class = 'child folder'>"+ name +"</li>");
+			file_tree_click_event(itm, false);
+			$("#projects").append(itm);
+		}
+	});
+}
+function edit_mode(){
+
+}
+function run_mode(){
 
 }
 var ctrl = false;
@@ -299,4 +316,5 @@ window.addEventListener("click", function(){
 		not create then rename
 		midle mouse close file tabs
 		f2 to rename files
+		opening up folders in different projects with same subfolders causes strange behaviour
 */

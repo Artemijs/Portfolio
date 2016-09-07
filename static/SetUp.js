@@ -28,6 +28,15 @@ function onLoad(){
 		left:$(window).width()/2 - $("#input_box").width()/2,
 		top:$(window).height()/2 + $("#input_box").height()/2
 	});
+	$("#new_proj").click(function(){
+		new_project();
+	});
+	$("#edit_proj").click(function(){
+
+	});
+	$("#run_proj").click(function(){
+
+	});
 }
 
 function sendMessage(){
