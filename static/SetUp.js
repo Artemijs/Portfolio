@@ -35,7 +35,7 @@ function onLoad(){
 
 	});
 	$("#run_proj").click(function(){
-
+		run_mode();
 	});
 }
 

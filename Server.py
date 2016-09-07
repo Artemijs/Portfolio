@@ -153,6 +153,16 @@ class NewProject(tornado.web.RequestHandler):
 		os.rename("./static/projects/project_template", "./static/projects/"+self.get_argument("name"))
 		self.write("dobra")
 
+#run project
+class RunProject(tornado.web.RequestHandler):
+	def post(self):
+		print()
+		path = self.get_argument("project_path")
+		print("running project " + path)
+		#index.html
+		srcpath = path[:-10]
+		self.render("static/"+path, path = "static/"+srcpath)
+
 #used to define where files are stored and where the source files are located
 settings = {
 	"static_path": os.path.join(os.path.dirname(__file__), "static"),
@@ -169,6 +179,7 @@ application = tornado.web.Application([
 	(r"/new_file", NewFile),
 	(r"/remove", RemoveFile),
 	(r"/new_project", NewProject),
+	(r"/run_project", RunProject),
 ], **settings)
 
 if __name__ == "__main__":

@@ -275,9 +275,7 @@ function new_project(){
 function edit_mode(){
 
 }
-function run_mode(){
 
-}
 var ctrl = false;
 window.addEventListener('keydown',function(event){
 	if(event.which == 17 && !ctrl){//ctrl
@@ -318,3 +316,35 @@ window.addEventListener("click", function(){
 		f2 to rename files
 		opening up folders in different projects with same subfolders causes strange behaviour
 */
+/*
+	<form id="mainForm" enctype="multipart/form-data" action="/register_response" method="post" >
+			Log In: <input type="text" name="log_in"><br>
+			Password: <input type="text" name="password"><br>
+			First name: <input type="text" name="fname"><br>
+  			Last name: <input type="text" name="lname"><br>
+  			Phone Number : <input type="text" name="phone_nr"><br>
+  			Address: <br>
+  			<textarea id = "address" rows="4" cols="50" name = "address">
+			</textarea> <br>
+			<input onclick="filterOutgoingData();" id = "submitBtn" type="submit" value="Submit" >
+		</form>
+*/
+function run_mode(){
+	//get the path to the project
+	var pat_arr = full_path(selected_element).split("/");
+	var path = pat_arr[0]+"/"+pat_arr[1]+"/index.html";
+	console.log(path);
+	//window.location.href = "localhost:5555/run_project";
+	/*$.get("/run_project", {"project_path" : path }, function(data){
+		//window.location.href = data;
+		document.write(data);
+	});*/
+	//send it to the server which will then self.render the index file
+	var btn = $("<input type='submit' value='Submit' >")
+	var form = $("<form enctype='multipart/form-data' action='/run_project' method='post' >"+
+		"<input type='text' name='project_path' value='"+path+"'><input id='submit' type='submit' value='Submit' ></form>");
+	$("#code_window").append(form);
+	$("#submit").click();
+
+
+}
