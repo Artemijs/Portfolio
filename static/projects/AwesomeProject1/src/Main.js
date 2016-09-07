@@ -6,6 +6,7 @@ function Start(){
 function Update(){
 	//this is your game loop
 	console.log("looping");
+	main_window.append("<p>lol</p>");
 	window.requestAnimationFrame(Update);
 }
 

@@ -83,13 +83,16 @@ function display_file_tree(response){
 	for(var i =1; i < obj.length;i++){
 		//gotta find if its file or folder
 		var itm;
+		
 		if(obj[i].lastIndexOf(".") == -1){//folder{}
-			itm = $("<li id='"+obj[i]+"' class = 'child folder'>"+ obj[i] +"</li>");
+			var id = obj[0]+obj[i];
+			itm = $("<li id='"+id+"' class = 'child folder'>"+ obj[i] +"</li>");
 			file_tree_click_event(itm, false);
 		}
 		else{//file
 			obj[i] = obj[i].replace(".", "_");
-			itm = $("<li id='"+obj[i]+"' class = 'child file'>"+ obj[i] +"</li>");
+			var id = obj[0]+obj[i];
+			itm = $("<li id='"+id+"' class = 'child file'>"+ obj[i] +"</li>");
 			file_tree_click_event(itm, true);
 		}
 		
@@ -105,7 +108,7 @@ function expand_project(that){
 	loadDirs(path);
 }
 function open_file(that){
-	var id = 't_'+$(that).text();
+	var id = 't_'+$(that).attr("id");
 	id = id.replace(".", "_");
 	console.log("is "+$("#"+id).length );
 	console.log("id "+id );
@@ -172,16 +175,24 @@ function close_tab(that){
 	//do something
 }
 function full_path(element){
-	var id= $(element).attr('id');
+	var id= $(element).text()
 	var path ="";
 	var count =0;
-	while( id != "projects"){
-		id= $(element).attr('id');
+	while( $(element).attr("id") != "projects"){
+		//apperantly .text() returns all of the text including the text of the illegitemate children. what a good feature, 10/10 would use this feature again, everybody needs to know what your childrens text is 
+		id= $(element).clone()	//clone the element
+					.children()	//select all the children
+					.remove()	//remove all the children
+					.end()	//again go back to selected element
+					.text();	//get the text of element
+		console.log(id);
 		path=id+"/"+path;
 		element = $(element).parent();
 		count++;
 		if(count >10) return;
 	}
+	path = "projects/"+path;
+	console.log("path "+path);
 	return path;
 }
 function save_file(){

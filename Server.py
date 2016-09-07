@@ -54,7 +54,7 @@ class ProjectFileList(tornado.web.RequestHandler):
 		print(some_dir)
 		assert os.path.isdir(some_dir)
 		some_dir = some_dir[:-1]#remove last "/"
-		list_of_dirs = [some_dir[some_dir.rindex("/")+1:],]#find the parent folder
+		list_of_dirs = [some_dir[9:].replace("/",""),]#find the parent folder
 
 		for root, dirs, files in os.walk(some_dir):
 			depth = root.count(os.path.sep)
