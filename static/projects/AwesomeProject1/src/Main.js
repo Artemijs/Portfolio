@@ -2,11 +2,13 @@ var main_window;
 function Start(){
 	//init your vars here 
 	main_window = $("#main_window");
+    main_window.append('<script type="text/javascript">function rofl(){console.log("ROFLING LIKE THERES NO TOMORROW.");}</script> ');
 }
 function Update(){
 	//this is your game loop
 	console.log("looping");
-	main_window.append("<p>lol</p>");
+	main_window.append("<p>ass</p>");
+    rofl();
 	window.requestAnimationFrame(Update);
 }
 

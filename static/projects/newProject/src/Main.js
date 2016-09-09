@@ -2,6 +2,8 @@ var main_window;
 function Start(){
 	//init your vars here 
 	main_window = $("#main_window");
+    //start the game loop
+    Update();
 }
 function Update(){
 	//this is your game loop
@@ -20,3 +22,4 @@ window.requestAnimationFrame = (function(callback){
             }
      
 })();
+Start();

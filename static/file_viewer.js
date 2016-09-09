@@ -261,11 +261,15 @@ function rename(new_name){
 	}
 }
 function remove(){
+	var file="no";
+	console.log(selected_element);
+	if( $(selected_element).hasClass("file") )file = "yes";
 	var path = full_path(selected_element);
 	$(selected_element).remove();
 	$.post("/remove",
 		{
 			"file_path": path,
+			"type" : file
 		}
 		, function(data, status){
 			console.log(data);
@@ -351,9 +355,12 @@ function run_mode(){
 		document.write(data);
 	});*/
 	//send it to the server which will then self.render the index file
+	var name = pat_arr[1];
 	var btn = $("<input type='submit' value='Submit' >")
 	var form = $("<form enctype='multipart/form-data' action='/run_project' method='post' >"+
-		"<input type='text' name='project_path' value='"+path+"'><input id='submit' type='submit' value='Submit' ></form>");
+		"<input type='text' name='project_path' value='"+path+"'>"+
+		"<input type='text' name='project_name' value='"+name+"'>"+
+		"<input id='submit' type='submit' value='Submit' ></form>");
 	$("#code_window").append(form);
 	$("#submit").click();
 

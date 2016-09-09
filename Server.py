@@ -5,6 +5,7 @@
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
+import tornado.autoreload
 import collections
 import json
 import ast
@@ -66,6 +67,7 @@ class ProjectFileList(tornado.web.RequestHandler):
 		self.write(json.dumps(list_of_dirs))
 
 #return text inside a file
+#so turns out tornado doesnt allow to change files while its running, if a change is made the server must be restarted
 class GetFileText(tornado.web.RequestHandler):
 	def get(self):
 		path = self.get_argument('file_path')
@@ -100,6 +102,7 @@ class Rename(tornado.web.RequestHandler):
 	def post(self):
 		path = self.get_argument('file_path')
 		path = "./static/"+path[:-1]
+		path = path.replace("_",".")
 		print()
 		print("renaming from "+path)
 		new_path = self.get_argument('new_file_path')
@@ -135,13 +138,17 @@ class NewFile(tornado.web.RequestHandler):
 class RemoveFile(tornado.web.RequestHandler):
 	def post(self):
 		path = self.get_argument('file_path')
+		isFile = self.get_argument("type")
 		ind = path.rfind("_")
 		if ind != -1 :
 			path = path[:ind] + "." + path[ind+1:]
 		path = "./static/"+path[:-1]
 		print()
-		print("deleting "+path)
-		shutil.rmtree(path)
+		print("deleting file: "+isFile+" "+path)
+		if isFile == "yes":
+			os.remove(path)
+		else:
+			shutil.rmtree(path)
 		self.write("dobra")
 
 #create a new project
@@ -160,8 +167,22 @@ class RunProject(tornado.web.RequestHandler):
 		path = self.get_argument("project_path")
 		print("running project " + path)
 		#index.html
+		content = ""
+		path = "./static/"+path
 		srcpath = path[:-10]
-		self.render("static/"+path, path = "static/"+srcpath)
+		self.render(path, project_name = self.get_argument("project_name"))
+
+#send back the contents of a js file
+class GetJSFile(tornado.web.RequestHandler):
+	def get(self):
+		path = self.get_argument('file_path')
+		print()
+		path = "./static/projects/"+path
+		print(" sending js file :			 "+path)
+		content = ""
+		with open(path) as f:
+			content = f.read()
+		self.write(content)
 
 #used to define where files are stored and where the source files are located
 settings = {
@@ -180,13 +201,16 @@ application = tornado.web.Application([
 	(r"/remove", RemoveFile),
 	(r"/new_project", NewProject),
 	(r"/run_project", RunProject),
+	(r"/get_file", GetJSFile),
 ], **settings)
 
 if __name__ == "__main__":
 	print ('enteringApplication, listening on port ' + str(port))
 	#connect to the database here later
+	
 	tornado.options.parse_command_line()
 	signal.signal(signal.SIGINT, signal_handler)
 	application.listen(port)
 	tornado.ioloop.PeriodicCallback(try_exit, 100).start() 
 	tornado.ioloop.IOLoop.instance().start()
+	
