@@ -237,6 +237,7 @@ function new_folder(path){
 	});
 	
 }
+//function lol(){console.log("ass and tities");}
 function rename(new_name){
 	if(new_name == undefined){
 		//display a pop up with a textbox 

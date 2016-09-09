@@ -170,7 +170,10 @@ class RunProject(tornado.web.RequestHandler):
 		content = ""
 		path = "./static/"+path
 		srcpath = path[:-10]
-		self.render(path, project_name = self.get_argument("project_name"))
+		with open(path) as f:
+			content = f.read()
+		content = content.replace("{{project_name}}",self.get_argument("project_name"))
+		self.write(content)
 
 #send back the contents of a js file
 class GetJSFile(tornado.web.RequestHandler):

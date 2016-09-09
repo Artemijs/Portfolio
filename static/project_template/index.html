@@ -4,13 +4,14 @@
 	<title>Project</title>
 	<script src = "http://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript">
+		var project_name = "{{project_name}}";
 		function include(path){
 			$.get("/get_file", {"file_path":path}, function(data){
 				var str = '<script type="text/javascript">' + data + '</scr'+'ipt>';
-				$("#load_files").append(str);
+				$("#load_files").prepend(str);
 			});
 		}
-		include('{{project_name}}/src/main.js');
+		include(project_name+'/src/main.js');
 	</script>
 	</head>
 	<body>

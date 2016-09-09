@@ -8,6 +8,7 @@ function Start(){
 function Update(){
 	//this is your game loop
 	console.log("looping");
+  lol();
 	window.requestAnimationFrame(Update);
 }
 
