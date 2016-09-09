@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+	<head>
+	<title>Project</title>
+	<script src = "http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript">
+		function include(path){
+			$.get("/get_file", {"file_path":path}, function(data){
+				var str = '<script type="text/javascript">' + data + '</scr'+'ipt>';
+				$("#load_files").append(str);
+			});
+		}
+		include('{{project_name}}/src/main.js');
+	</script>
+	</head>
+	<body>
+		<div id = "load_files">
+		</div>
+		<div id = "main_window">
+		</div>
+	</body>
+</html>

@@ -248,7 +248,7 @@ function rename(new_name){
 		$("#input_box").hide();
 		var old_path = full_path(selected_element);
 		$(selected_element).text(new_name);
-		$(selected_element).attr("id", new_name);
+		$(selected_element).attr("id", "projects"+new_name);
 		var new_path = full_path(selected_element);
 		$.post("/rename",
 		{
@@ -281,9 +281,11 @@ function new_project(){
 	$.post("/new_project",{"name":name}, function(data){
 		console.log(data);
 		if(data == "dobra"){
-			itm = $("<li id='"+name+"' class = 'child folder'>"+ name +"</li>");
+			itm = $("<li id='projects"+name+"' class = 'child folder'>"+ name +"</li>");
 			file_tree_click_event(itm, false);
 			$("#projects").append(itm);
+			itm.click();
+			rename();
 		}
 	});
 }
