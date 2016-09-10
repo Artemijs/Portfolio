@@ -1,6 +1,6 @@
 
 <p> I'll try to implement the intelisense </p>
-<p>This is a website that will have the following features: </p?
+<p>This is a website that will have the following features: </p>
 	<p>* Text Editor </p>
 	<p>* Code saving on the server side </p>
 	<p>* Running your code </p>
