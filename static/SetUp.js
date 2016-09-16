@@ -37,6 +37,10 @@ function onLoad(){
 	$("#run_proj").click(function(){
 		run_mode();
 	});
+	
+	$("#intel").click(function(){
+		creat_this_shit();
+	});
 }
 
 function sendMessage(){
@@ -64,3 +68,4 @@ function sendMessage(){
 			variables and functions of an object
 
 */
+

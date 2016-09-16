@@ -159,6 +159,12 @@ function show_code(that){
 		}
 	}
 }
+function get_current_code_path(){
+	var id = $("#file_name_nav").find("span.selected").attr("id");
+	id = id.replace("t_", "");
+	return full_path($("#"+id));
+	//console.log(id);
+}
 function close_tab(that){
 	//get id
 	var id = $(that).attr("id");

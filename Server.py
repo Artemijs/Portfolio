@@ -1,6 +1,6 @@
 #Created by Artemijs Poznaks
 #Created on : 29/08/16
-#Last Edited on : 29/08/16
+''' file path is passed with a _js instead of .js, because html doesnt like "."'''
 
 import tornado.ioloop
 import tornado.web
@@ -15,6 +15,8 @@ import cgi, sys, os, random, string, shutil
 import pymysql
 import base64
 from binascii import a2b_base64
+
+from intel  import File_Parser
 
 from tornado.options import options
 is_closing = False
@@ -187,6 +189,19 @@ class GetJSFile(tornado.web.RequestHandler):
 			content = f.read()
 		self.write(content)
 
+#get the intelisense data
+class GetIntelisense(tornado.web.RequestHandler):
+	def get(self):
+		path = self.get_argument('file_path')
+		path = path.replace("_",".")
+		path = "./static/"+path[:-1]
+		intel = File_Parser()
+		lstr = intel.parse_json(path)
+		print()
+		print("getting intel for " + path)
+		print("sending "+lstr)
+		self.write(lstr)
+
 #used to define where files are stored and where the source files are located
 settings = {
 	"static_path": os.path.join(os.path.dirname(__file__), "static"),
@@ -205,6 +220,7 @@ application = tornado.web.Application([
 	(r"/new_project", NewProject),
 	(r"/run_project", RunProject),
 	(r"/get_file", GetJSFile),
+	(r"/get_intel", GetIntelisense),
 ], **settings)
 
 if __name__ == "__main__":
