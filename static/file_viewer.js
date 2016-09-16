@@ -302,6 +302,9 @@ function edit_mode(){
 
 var ctrl = false;
 window.addEventListener('keydown',function(event){
+	if(ctrl && event.which == 32){
+		get_scope_data();
+	}
 	if(event.which == 17 && !ctrl){//ctrl
 		ctrl = true;
 		

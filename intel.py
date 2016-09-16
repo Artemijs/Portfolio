@@ -73,30 +73,30 @@ class File_Parser:
 				found = False
 				scope_name = self.check_keys(line)
 				if scope_name != "none":
-					File_Parser.long_str += self.tab_times(File_Parser.level)+"["+scope_name+", "+str(File_Parser.line_count)+", [\n"
-					File_Parser.level+=1
+					self.long_str += self.tab_times(self.level)+"["+scope_name+", "+str(self.line_count)+", [\n"
+					self.level+=1
 					found = True
 				if not found:
 					if line.count("{") > 0:
 						#if theres a { but no keyword
-						File_Parser.skip_count+=1
+						self.skip_count+=1
 
 				#find the end of scope
 				if line.count("}") > 0 :
-					if File_Parser.skip_count > 0:#skip it if needed
-						File_Parser.skip_count -=1
+					if self.skip_count > 0:#skip it if needed
+						self.skip_count -=1
 					else:
-						File_Parser.level-=1
-						las_C = File_Parser.long_str[-2:]
+						self.level-=1
+						las_C = self.long_str[-2:]
 						if las_C[0] ==",":
-							File_Parser.long_str = File_Parser.long_str[:-2]+"\n"#this part right here slows down the code by a lot
-						File_Parser.long_str += self.tab_times(File_Parser.level)+"], "+str(File_Parser.line_count)+" ],\n"
+							self.long_str = self.long_str[:-2]+"\n"#this part right here slows down the code by a lot
+						self.long_str += self.tab_times(self.level)+"], "+str(self.line_count)+" ],\n"
 					
 				if line.count("var") > 0:
-					File_Parser.long_str += self.tab_times(File_Parser.level)+"["+self.get_var_name(line)+", "+str(File_Parser.line_count)+"],\n"
-				File_Parser.line_count+=1;
-		File_Parser.long_str = "["+File_Parser.long_str[:-2]+"]"
-		return File_Parser.long_str
+					self.long_str += self.tab_times(self.level)+"["+self.get_var_name(line)+", "+str(self.line_count)+"],\n"
+				self.line_count+=1;
+		self.long_str = "["+self.long_str[:-2]+"]"
+		return self.long_str
 		#print("--- %s seconds ---" % (time.time() - start_time))
 
 
