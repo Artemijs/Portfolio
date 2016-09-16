@@ -9,7 +9,7 @@ function creat_this_shit(){
 }
 //this needs to be done recursively
 function get_scope_data(){
-	var lineNr = myCodeMirror.getCursor().line;
+	/*var lineNr = myCodeMirror.getCursor().line;
 	//[i][0] = name		[i][1] = start line 	[i][2] = content 	[i][3] = end
 	console.log(lineNr);
 	//try to get the global only 
@@ -29,6 +29,38 @@ function get_scope_data(){
 					console.log(subObj[0]);
 
 				}
+		}
+	}*/
+	var lineNr = myCodeMirror.getCursor().line + 1;
+	//[i][0] = name		[i][1] = start line 	[i][2] = content 	[i][3] = end
+	console.log(lineNr);
+	get_scope(jdata, lineNr);
+}
+/*
+	get(obj){
+		for
+			log(obj[i][0])
+			if obj.len >2
+				get(obj[i][2])
+	}
+*/
+function get_scope(obj, lineNr){
+	//var lineNr = myCodeMirror.getCursor().line;
+	//[i][0] = name		[i][1] = start line 	[i][2] = content 	[i][3] = end
+	//console.log(lineNr);
+	//try to get the global only 
+	for(var i =0; i < obj.length; i++){
+		if(obj[i].length < 3){
+			//var
+			if(lineNr >= obj[i][1])
+				console.log("r        "+obj[i][0]);
+		}
+		else{
+			//func
+			console.log("r        "+obj[i][0]);
+			if(lineNr >= obj[i][1] &&  lineNr <= obj[i][3]){//your inside this scope
+				get_scope(obj[i][2],lineNr);
+			}
 		}
 	}
 }
