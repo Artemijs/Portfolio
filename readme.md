@@ -1,5 +1,10 @@
 
-<p> I'll try to implement the intelisense </p>
+<p> The intelliscience(yes, science :) is impement using a pyhon script that parses files and crates a JSON parsable string, which is sent to the client</p>
+<p> I need to do the following</p>
+	* Create per project intelliscience file
+	* Allow for working on one project at the time only
+	* UI for the intelliscience
+	* Auto fill the word from the Intelliscience
 <p>This is a website that will have the following features: </p>
 	* Text Editor 
 	* Code saving on the server side 

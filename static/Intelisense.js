@@ -9,30 +9,7 @@ function creat_this_shit(){
 }
 //this needs to be done recursively
 function get_scope_data(){
-	/*var lineNr = myCodeMirror.getCursor().line;
-	//[i][0] = name		[i][1] = start line 	[i][2] = content 	[i][3] = end
-	console.log(lineNr);
-	//try to get the global only 
-	for(var i =0; i < jdata.length; i++){
-		console.log("gspace "+jdata[i][0]);
-		if(jdata[i].length <3){
-			//this is a var
-		}
-		else{
-			//this is a func
-			var obj = jdata[i];
-			if(lineNr >= obj[1] &&  lineNr <= obj[3])
-				//print out the contents that follow the same format 
-			console.log(obj[2]);
-				for( var j =0; j< obj[2].length; j++){
-					var subObj = obj[2][j];
-					console.log(subObj[0]);
-
-				}
-		}
-	}*/
 	var lineNr = myCodeMirror.getCursor().line + 1;
-	//[i][0] = name		[i][1] = start line 	[i][2] = content 	[i][3] = end
 	console.log(lineNr);
 	get_scope(jdata, lineNr);
 }
@@ -42,13 +19,10 @@ function get_scope_data(){
 			log(obj[i][0])
 			if obj.len >2
 				get(obj[i][2])
-	}
+	} is how it should roughly work
 */
+//[i][0] = name		[i][1] = start line 	[i][2] = content 	[i][3] = end
 function get_scope(obj, lineNr){
-	//var lineNr = myCodeMirror.getCursor().line;
-	//[i][0] = name		[i][1] = start line 	[i][2] = content 	[i][3] = end
-	//console.log(lineNr);
-	//try to get the global only 
 	for(var i =0; i < obj.length; i++){
 		if(obj[i].length < 3){
 			//var
