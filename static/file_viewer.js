@@ -343,19 +343,8 @@ window.addEventListener("click", function(){
 		f2 to rename files
 		opening up folders in different projects with same subfolders causes strange behaviour
 */
-/*
-	<form id="mainForm" enctype="multipart/form-data" action="/register_response" method="post" >
-			Log In: <input type="text" name="log_in"><br>
-			Password: <input type="text" name="password"><br>
-			First name: <input type="text" name="fname"><br>
-  			Last name: <input type="text" name="lname"><br>
-  			Phone Number : <input type="text" name="phone_nr"><br>
-  			Address: <br>
-  			<textarea id = "address" rows="4" cols="50" name = "address">
-			</textarea> <br>
-			<input onclick="filterOutgoingData();" id = "submitBtn" type="submit" value="Submit" >
-		</form>
-*/
+// i will get back to this, using the argument passing in the url
+//something like /run_project?project_name = "name"?project_path = "path"
 function run_mode(){
 	//get the path to the project
 	var pat_arr = full_path(selected_element).split("/");

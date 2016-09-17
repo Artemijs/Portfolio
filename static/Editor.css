@@ -14,7 +14,7 @@
 .file{
 	color : #2E2E68;
 }
-li {
+li {/*this disables the default context menu*/
     list-style-type: none;
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none;   /* Chrome/Safari/Opera */
@@ -50,6 +50,14 @@ li {
 	z-index : 1;
 	position : absolute;
 	padding: 50px 55px 50px 55px;
-	background-color: grey;
+	background-color: #E3F4FF;
 	border-style: ridge;
+	z-index : 10;
+}
+.intel_box{
+	z-index : 10;
+	position : absolute;
+	/*padding: 50px 55px 50px 55px;*/
+	background-color: #E3F4FF;
+	border-style: outset;
 }

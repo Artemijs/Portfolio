@@ -11,6 +11,7 @@ function onLoad(){
 	});
 	myCodeMirror.setSize($(window).width() - myCodeMirror.left, $(window).height()*0.97);
 	$("#context_menu").hide();
+	$("#intel_box").hide();
 	$("#new_file").click(function(){
 		var path = full_path(selected_element);
 		console.log("creating a new file in " + path);
@@ -31,7 +32,7 @@ function onLoad(){
 	$("#new_proj").click(function(){
 		new_project();
 	});
-	$("#edit_proj").click(function(){
+	$("#edit_proj").click(function(){ 
 
 	});
 	$("#run_proj").click(function(){
@@ -42,7 +43,7 @@ function onLoad(){
 		creat_this_shit();
 	});
 }
-
+//i can change this to use jquery .post()
 function sendMessage(){
 	console.log("sending ");
 	var msg = myCodeMirror.getValue();
@@ -59,13 +60,4 @@ function sendMessage(){
 	    }
 	}
 }
-/*
-	undeclared variable is a must have
-	also cant live without auto complete
-		what to auto complete:
-			varibles written in that file
-			functions in that file
-			variables and functions of an object
-
-*/
 
