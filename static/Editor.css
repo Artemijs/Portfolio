@@ -60,4 +60,14 @@ li {/*this disables the default context menu*/
 	/*padding: 50px 55px 50px 55px;*/
 	background-color: #E3F4FF;
 	border-style: outset;
+	height: 150px;
+	overflow: scroll;
+}
+.intel_opt{
+	padding:0px 0px 0px 1px;
+	margin-top: 0%;
+	margin-bottom: 0%;
+}
+p.intel_opt:hover {
+    background-color: white;
 }

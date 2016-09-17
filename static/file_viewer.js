@@ -334,6 +334,8 @@ window.addEventListener('keyup',function(event){
 window.addEventListener("click", function(){
 	if($("#context_menu").css('display') != 'none' )//if its visible
 		$("#context_menu").hide();
+	if($("#intel_box").css('display') != 'none' )//if its visible
+		$("#intel_box").hide();
 });
 /*
 	so that i dont forget

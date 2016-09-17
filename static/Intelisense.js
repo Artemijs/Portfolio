@@ -11,6 +11,7 @@ function creat_this_shit(){
 function get_scope_data(){
 	var lineNr = myCodeMirror.getCursor().line + 1;
 	console.log(lineNr);
+	$("#intel_box").empty();
 	get_scope(jdata, lineNr);
 	display_UI();
 }
@@ -43,7 +44,25 @@ function get_scope(obj, lineNr){
 	}
 }
 function add_intel_option(str){
-	$("#intel_box").append("<p>"+str+"</p>");
+	var opt = $("<p class='intel_opt'>"+str+"</p>");
+	$("#intel_box").append(opt);
+	opt.click(function(){
+		insert_opt(this);
+	});
+}
+function insert_opt(that){
+	var word = $(that).text();
+	console.log(word);
+	 var cm = $('.CodeMirror')[0].CodeMirror;
+    var doc = cm.getDoc();
+    var cursor = doc.getCursor(); // gets the line number in the cursor position
+    var line = doc.getLine(cursor.line); // get the line contents
+    var pos = { // create a new object to avoid mutation of the original selection
+        line: cursor.line,
+        ch: line.length - 1 // set the character position to the end of the line
+    }
+    doc.replaceRange(word, pos); // adds a new line
+    $("#intel_box").hide();
 }
 function display_UI(){
 	//at  position
