@@ -1,5 +1,6 @@
 var jdata ;
 var selected_opt = 0;
+var typing_str="";
 function creat_this_shit(){
 	//request the selected file intel
 	var path = get_current_code_path();
@@ -13,33 +14,52 @@ function get_scope_data(){
 	var lineNr = myCodeMirror.getCursor().line + 1;
 	console.log(lineNr);
 	$("#intel_box").empty();
-	get_scope(jdata, lineNr);
+	//get the current word
+	var word = myCodeMirror.findWordAt(myCodeMirror.getCursor()); 
+	var inptStr = myCodeMirror.getRange(word.anchor, word.head);
+	inptStr = inptStr.replace(/ /g,'');
+	inptStr = inptStr.replace("\t",'');
+	console.log("inptStr ="+inptStr+".");
+	typing_str = inptStr;
+	get_scope(jdata, lineNr, inptStr);
 	display_UI();
 }
 /*
 	get(obj){
 		for
 			log(obj[i][0])
-			if obj.len >2
+			if obj[i][2].len >2
 				get(obj[i][2])
 	} is how it should roughly work
 */
 //[i][0] = name		[i][1] = start line 	[i][2] = content 	[i][3] = end
-function get_scope(obj, lineNr, inptStr){
+function get_scope(obj, lineNr){
 	for(var i =0; i < obj.length; i++){
+		
 		if(obj[i].length < 3){
 			//var
 			if(lineNr >= obj[i][1]){
 				console.log("r        "+obj[i][0]);
-				add_intel_option(obj[i][0]);
+
+				if(typing_str.length > 0 ){
+					if(check_match(typing_str, obj[i][0]))//check is the ame starts with inptStr 
+						add_intel_option(obj[i][0]);
+				}
+				else//if your not typing, print everything available
+					add_intel_option(obj[i][0]);
 			}
 		}
 		else{
 			//func
 			console.log("r        "+obj[i][0]);
-			add_intel_option(obj[i][0]);
+			if(typing_str.length > 0 ){
+				if(check_match(typing_str, obj[i][0]))//check is the ame starts with inptStr 
+					add_intel_option(obj[i][0]);
+			}
+			else//if your not typing, print everything available
+				add_intel_option(obj[i][0]);
 			if(lineNr >= obj[i][1] &&  lineNr <= obj[i][3]){//your inside this scope
-				get_scope(obj[i][2],lineNr, inptStr);
+				get_scope(obj[i][2],lineNr);
 			}
 		}
 	}
@@ -81,11 +101,17 @@ function insert_opt(that){
     var doc = cm.getDoc();
     var cursor = doc.getCursor(); // gets the line number in the cursor position
     var line = doc.getLine(cursor.line); // get the line contents
+    //to
     var pos = { // create a new object to avoid mutation of the original selection
         line: cursor.line,
-        ch: line.length  // set the character position to the end of the line
+        ch: line.length - typing_str.length +word.length // set the character position to the end of the line
     }
-    doc.replaceRange(word, pos); // adds a new line
+    //from
+    var pos2 = { // create a new object to avoid mutation of the original selection
+        line: cursor.line,
+        ch: line.length -typing_str.length  // set the character position to the end of the line
+    }
+    doc.replaceRange(word, pos2, pos); 
     close_intel_box();
 }
 function display_UI(){
@@ -103,6 +129,7 @@ function display_UI(){
 		"left":pos_x,
 		"top": pos_y
 	});
+	selected_opt = 0;
 	move_selection(0);
 	$("#intel_box").show();
 	intel_active = true;//var from setup
