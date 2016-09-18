@@ -1,4 +1,5 @@
 var jdata ;
+var selected_opt = 0;
 function creat_this_shit(){
 	//request the selected file intel
 	var path = get_current_code_path();
@@ -24,7 +25,7 @@ function get_scope_data(){
 	} is how it should roughly work
 */
 //[i][0] = name		[i][1] = start line 	[i][2] = content 	[i][3] = end
-function get_scope(obj, lineNr){
+function get_scope(obj, lineNr, inptStr){
 	for(var i =0; i < obj.length; i++){
 		if(obj[i].length < 3){
 			//var
@@ -38,10 +39,33 @@ function get_scope(obj, lineNr){
 			console.log("r        "+obj[i][0]);
 			add_intel_option(obj[i][0]);
 			if(lineNr >= obj[i][1] &&  lineNr <= obj[i][3]){//your inside this scope
-				get_scope(obj[i][2],lineNr);
+				get_scope(obj[i][2],lineNr, inptStr);
 			}
 		}
 	}
+}
+
+function check_match(str, word){
+	var i =0;
+	var match = false;
+	this.check= function(i){//this is a pretty cool way to do recursiveness
+		if(str[i] == word[i]){
+			//console.log("str i "+str[i]+"  word i "+word[i]);
+			match = true;
+			i++;
+			if(i < str.length){
+				
+				check(i);
+			}
+		}
+		else{
+			//console.log("i "+i);
+			match = false;
+			return;
+		}
+	}
+	this.check(i);
+	return match;
 }
 function add_intel_option(str){
 	var opt = $("<p class='intel_opt'>"+str+"</p>");
@@ -59,10 +83,10 @@ function insert_opt(that){
     var line = doc.getLine(cursor.line); // get the line contents
     var pos = { // create a new object to avoid mutation of the original selection
         line: cursor.line,
-        ch: line.length - 1 // set the character position to the end of the line
+        ch: line.length  // set the character position to the end of the line
     }
     doc.replaceRange(word, pos); // adds a new line
-    $("#intel_box").hide();
+    close_intel_box();
 }
 function display_UI(){
 	//at  position
@@ -79,5 +103,23 @@ function display_UI(){
 		"left":pos_x,
 		"top": pos_y
 	});
+	move_selection(0);
 	$("#intel_box").show();
+	intel_active = true;//var from setup
+}
+function close_intel_box(){
+	$("#intel_box").hide();
+	intel_active = false;//var from setup
+}
+function move_selection(dir){
+	if(dir < 0 && selected_opt <1) return;
+	var sweet_children = $("#intel_box").find("p.intel_opt");
+	if(dir>0 && selected_opt >= sweet_children.length) return;
+	$(sweet_children[selected_opt]).removeClass("selected");
+	selected_opt+=dir;
+	$(sweet_children[selected_opt]).addClass("selected");
+}
+function on_enter(){
+	var sweet_children = $("#intel_box").find("p.intel_opt");
+	insert_opt(sweet_children[selected_opt]);
 }

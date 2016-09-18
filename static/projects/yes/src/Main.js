@@ -2,7 +2,7 @@ var main_window;
 var nice_one;
 function Start(){
 	var lol;
-  
+	
 }
 function intelisense(word){
   

@@ -329,13 +329,16 @@ window.addEventListener('keyup',function(event){
 			$("#input_field").val("");
 			rename(new_name);
 		}
+		if($("#intel_box").css('display') != 'none' ){//if its visible
+			on_enter();//from intellisense.js
+		}
 	}
 },false);
 window.addEventListener("click", function(){
 	if($("#context_menu").css('display') != 'none' )//if its visible
 		$("#context_menu").hide();
 	if($("#intel_box").css('display') != 'none' )//if its visible
-		$("#intel_box").hide();
+		close_intel_box();
 });
 /*
 	so that i dont forget

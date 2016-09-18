@@ -1,4 +1,5 @@
 var myCodeMirror;
+var intel_active = false;
 function onLoad(){
 	$("#project_panel").height($(window).height()*0.97);
 	var myTextArea = document.getElementById('myText');
@@ -42,6 +43,51 @@ function onLoad(){
 	$("#intel").click(function(){
 		creat_this_shit();
 	});
+	myCodeMirror.setOption("extraKeys", {"Up":function(){
+		if(intel_active) // logic to decide whether to move up or not
+		{
+			move_selection(-1);
+			console.log("Key Up pressed");
+			return CodeMirror.PASS;
+		}
+		else myCodeMirror.execCommand("goLineUp");
+	},
+	"Down":function(){
+		if(intel_active) // logic to decide whether to move up or not
+		{
+			move_selection(1);
+			console.log("Key D pressed");
+			return CodeMirror.PASS;
+		}
+		else myCodeMirror.execCommand("goLineDown");
+	},
+	"Enter":function(){
+		if(intel_active) // logic to decide whether to move up or not
+		{
+			return CodeMirror.PASS;
+		}
+		else myCodeMirror.execCommand("newlineAndIndent");
+	}});
+	/*myCodeMirror.setOption("extraKeys", {"Down":function()
+	{
+		
+		if(intel_active) // logic to decide whether to move up or not
+		{
+			return CodeMirror.PASS;
+		}
+		else{
+			move_selection(-1);
+			console.log("Key down pressed");
+		}
+	}});*/
+	/*$(".CodeMirror").keypress(function(event ){
+		if(event.which  == 38){//up
+
+		}
+		else if (event.which == 40){//down
+
+		}
+	});*/
 }
 //i can change this to use jquery .post()
 function sendMessage(){
