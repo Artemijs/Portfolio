@@ -1,6 +1,6 @@
-var jdata ;
-var selected_opt = 0;
-var typing_str="";
+var jdata ;//contains the intelisense data
+var selected_opt = 0;//selected option in the pop up
+var typing_str="";//the word to autocomplete
 function creat_this_shit(){
 	//request the selected file intel
 	var path = get_current_code_path();
@@ -20,7 +20,7 @@ function get_scope_data(){
 	//get the current word
 	var word = myCodeMirror.findWordAt(myCodeMirror.getCursor()); 
 	var inptStr = myCodeMirror.getRange(word.anchor, word.head);
-	inptStr = inptStr.replace(/ /g,'');
+	inptStr = inptStr.replace(/ /g,'');//make sure its a real word and not a space or a tab
 	inptStr = inptStr.replace("\t",'');
 	console.log("inptStr ="+inptStr+".");
 	typing_str = inptStr;
@@ -72,8 +72,7 @@ function check_match(str, word){
 	var i =0;
 	var match = false;
 	this.check= function(i){//this is a pretty cool way to do recursiveness
-		if(str[i] == word[i]){
-			//console.log("str i "+str[i]+"  word i "+word[i]);
+		if(str[i] == word[i]){//while the letters match keep going, if at end then your good 
 			match = true;
 			i++;
 			if(i < str.length){
@@ -81,8 +80,7 @@ function check_match(str, word){
 				check(i);
 			}
 		}
-		else{
-			//console.log("i "+i);
+		else{//else your not good
 			match = false;
 			return;
 		}
@@ -143,13 +141,13 @@ function close_intel_box(){
 }
 function move_selection(dir){
 	if(dir < 0 && selected_opt <1) return;
-	var sweet_children = $("#intel_box").find("p.intel_opt");
+	var sweet_children = $("#intel_box").find("p.intel_opt");// sweet children wtf 
 	if(dir>0 && selected_opt >= sweet_children.length) return;
 	$(sweet_children[selected_opt]).removeClass("selected");
 	selected_opt+=dir;
 	$(sweet_children[selected_opt]).addClass("selected");
 }
 function on_enter(){
-	var sweet_children = $("#intel_box").find("p.intel_opt");
+	var sweet_children = $("#intel_box").find("p.intel_opt"); // again wtf 
 	insert_opt(sweet_children[selected_opt]);
 }
