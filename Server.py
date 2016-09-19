@@ -94,10 +94,12 @@ class SaveCode(tornado.web.RequestHandler):
 		code = self.get_argument('code')
 		print("\n")
 		print("saving file "+path)
-		print(code)
+		
 		with open(path, "w") as f:
 			f.write(code)
-		self.write("dobra")
+		intel = File_Parser()
+		lstr = intel.parse_json(path)
+		self.write(lstr)
 
 #rename files por folders
 class Rename(tornado.web.RequestHandler):

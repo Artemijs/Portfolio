@@ -5,9 +5,12 @@ function creat_this_shit(){
 	//request the selected file intel
 	var path = get_current_code_path();
 	$.get("/get_intel", {"file_path" : path}, function(data){
-		jdata  = JSON.parse(data)
+		jdata  = JSON.parse(data);
 		console.log(jdata);
 	});
+}
+function update_intel(data){
+	jdata  = JSON.parse(data);
 }
 //this needs to be done recursively
 function get_scope_data(){

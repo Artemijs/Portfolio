@@ -2,7 +2,13 @@ var main_window;
 var nice_one;
 function Start(){
 	var lol;
-	
+	lol = 10;
+  	for( var i =0; i <lol; i++){
+    	if(i %2 == 0)
+          console.log( lol );
+    }
+  	var myVar = "awesome";
+  	console.log( myVar );
 }
 function intelisense(word){
   

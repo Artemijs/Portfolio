@@ -215,7 +215,7 @@ function save_file(){
 		"file_path": path,
 		"code" : code
 	}, function(data, status){
-		console.log(data);
+		update_intel(data);
 	});
 }
 function new_file(path){
